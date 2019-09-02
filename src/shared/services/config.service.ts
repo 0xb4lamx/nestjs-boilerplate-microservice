@@ -67,6 +67,23 @@ export class ConfigService {
         };
     }
 
+    get eventStoreConfig() {
+        return {
+            protocol: this.get('EVENT_STORE_PROTOCOL') || 'http',
+            hostname: this.get('EVENT_STORE_HOSTNAME') || '0.0.0.0',
+            tcpPort: this.get('EVENT_STORE_TCP_PORT') ||  1113,
+            httpPort: this.get('EVENT_STORE_HTTP_PORT') ||  2113,
+            credentials: {
+                username: this.get('EVENT_STORE_CREDENTIALS_USERNAME') ||  'admin',
+                password: this.get('EVENT_STORE_CREDENTIALS_PASSWORD') ||  'changeit',
+            },
+            poolOptions: {
+                min: this.get('EVENT_STORE_POOLOPTIONS_MIN') || 1,
+                max: this.get('EVENT_STORE_POOLOPTIONS_MAX') || 10,
+            },
+        };
+    }
+
     get awsS3Config(): IAwsConfigInterface {
         return {
             accessKeyId: this.get('AWS_S3_ACCESS_KEY_ID'),
