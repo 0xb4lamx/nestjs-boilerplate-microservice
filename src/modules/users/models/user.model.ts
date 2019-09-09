@@ -1,6 +1,5 @@
 import { AggregateRoot } from '@nestjs/cqrs';
 
-import { UserDto } from '../dtos/users.dto';
 import { UserCreatedEvent } from '../events/impl/user-created.event';
 import { UserDeletedEvent } from '../events/impl/user-deleted.event';
 import { UserUpdatedEvent } from '../events/impl/user-updated.event';

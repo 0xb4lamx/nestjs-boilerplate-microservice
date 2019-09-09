@@ -1,15 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import * as winston from 'winston';
 
 import { ConfigService } from './config.service';
 
 @Injectable()
-export class LoggerService {
+export class LoggerService extends Logger {
     private readonly _logger: winston.Logger;
 
-    constructor(public configService: ConfigService) {
-        this._logger = winston.createLogger(configService.winstonConfig);
-        if (configService.nodeEnv !== 'production') {
+    constructor(private readonly _configService: ConfigService) {
+        super(LoggerService.name, true);
+        this._logger = winston.createLogger(_configService.winstonConfig);
+        if (_configService.nodeEnv !== 'production') {
             this._logger.debug('Logging initialized at debug level');
         }
     }

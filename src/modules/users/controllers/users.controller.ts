@@ -24,8 +24,8 @@ export class UsersController {
     @ApiResponse({ status: HttpStatus.CREATED, description: 'User Created.' })
     @Post()
     async createUser(@Body() userDto: UserDto): Promise<UserDto> {
-        const userId = Math.floor(Math.random() * (999 - 100 + 1) + 100);
-        return this._usersService.createUser({ ...{ userId }, ...userDto });
+        const id = Math.floor(Math.random() * (999 - 100 + 1) + 100);
+        return this._usersService.createUser({ ...userDto, ...{ id } });
     }
 
     /* Update User */
@@ -54,7 +54,7 @@ export class UsersController {
     @ApiOperation({ title: 'List Users' })
     @ApiResponse({ status: HttpStatus.OK, description: 'List Users.' })
     @Get()
-    async findUsers(@Param() param) {
+    async findUsers() {
         return this._usersService.findUsers();
     }
 
@@ -64,6 +64,6 @@ export class UsersController {
     @ApiResponse({ status: HttpStatus.OK, description: 'Get User.' })
     @Get(':userId')
     async findOneUser(@Param() userId: UserIdRequestParamsDto) {
-        return this._usersService.findUsers();
+        return this._usersService.findOneById(userId);
     }
 }

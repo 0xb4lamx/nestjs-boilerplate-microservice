@@ -21,12 +21,7 @@ export class EventStore {
 
     connect(config) {
         try {
-            this._client = new TCPClient({
-                hostname: config.hostname,
-                port: config.tcpPort,
-                credentials: config.credentials,
-                poolOptions: config.poolOptions,
-            });
+            this._client = new TCPClient(config);
             Logger.log('EventStore connected successfully.');
         } catch (e) {
             Logger.error(e.message);
@@ -35,7 +30,7 @@ export class EventStore {
     }
 
     getClient() {
-        return this.client;
+        return this._client;
     }
 
     newEvent(name, payload) {
@@ -43,7 +38,7 @@ export class EventStore {
     }
 
     close() {
-        this.client.close();
+        this._client.close();
         return this;
     }
 }

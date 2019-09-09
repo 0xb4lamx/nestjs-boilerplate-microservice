@@ -1,15 +1,12 @@
-import {
-    Injectable,
-    Inject,
-    OnModuleDestroy,
-    OnModuleInit,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { IEventPublisher, IMessageSource, IEvent } from '@nestjs/cqrs';
+import { TCPClient } from 'geteventstore-promise';
 import * as http from 'http';
 import { Subject } from 'rxjs';
 import * as xml2js from 'xml2js';
 
 import { ConfigService } from '../../../shared/services/config.service';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 /**
  * @class EventStore
@@ -19,32 +16,45 @@ import { ConfigService } from '../../../shared/services/config.service';
  */
 @Injectable()
 export class EventStore implements IEventPublisher, IMessageSource {
-    private _eventStore: any;
+    private _client: TCPClient;
     private _eventHandlers: object;
     private _category: string;
     private readonly _eventStoreHostUrl: string;
 
-    constructor(
-        @Inject('EVENT_STORE_PROVIDER') eventStore: any,
-        configService: ConfigService,
-    ) {
+    constructor(private readonly _configService: ConfigService,
+                private readonly _logger: LoggerService) {
         this._category = 'users';
-        this._eventStore = eventStore;
-        this._eventStore.connect(configService.eventStoreConfig);
+        try {
+            this._client = new TCPClient({
+                hostname: _configService.eventStoreConfig.hostname,
+                port: _configService.eventStoreConfig.tcpPort,
+                credentials: _configService.eventStoreConfig.credentials,
+                poolOptions: _configService.eventStoreConfig.poolOptions,
+            });
+            _logger.log('EventStore connected successfully.');
+        } catch (e) {
+            _logger.error(e.message);
+        }
         this._eventStoreHostUrl =
-            configService.eventStoreConfig.protocol +
-            `://${configService.eventStoreConfig.hostname}:${configService.eventStoreConfig.httpPort}/streams/`;
+            _configService.eventStoreConfig.protocol +
+            `://${_configService.eventStoreConfig.hostname}:${_configService.eventStoreConfig.httpPort}/streams/`;
     }
 
     async publish<T extends IEvent>(event: T) {
+
         const message = JSON.parse(JSON.stringify(event));
-        const userId = message.userId || message.userDto.userId;
-        const streamName = `${this._category}-${userId}`;
+        const id = message.userDto.id;
+        const streamName = `${this._category}-${id}`;
         const type = event.constructor.name;
+        const metadata = {
+            _aggregate_id: id,
+            _ocurred_on: new Date().getTime(),
+        };
+
         try {
-            await this._eventStore.client.writeEvent(streamName, type, event);
+            await this._client.writeEvent(streamName, type, event, metadata);
         } catch (err) {
-            console.trace(err);
+            this._logger.error(err.message, err.stack);
         }
     }
 
@@ -68,7 +78,7 @@ export class EventStore implements IEventPublisher, IMessageSource {
                 res.on('end', () => {
                     xml2js.parseString(rawData, (err, result) => {
                         if (err) {
-                            console.trace(err);
+                            this._logger.error(err.message, err.stack);
                             return;
                         }
                         const content = result['atom:entry']['atom:content'][0];
@@ -84,18 +94,18 @@ export class EventStore implements IEventPublisher, IMessageSource {
         };
 
         const onDropped = (subscription, reason, error) => {
-            console.trace(subscription, reason, error);
+            this._logger.error(error.message, error.stack);
         };
 
         try {
-            await this._eventStore.client.subscribeToStream(
+            await this._client.subscribeToStream(
                 streamName,
                 onEvent,
                 onDropped,
                 false,
             );
         } catch (err) {
-            console.trace(err);
+            this._logger.error(err.message, err.stack);
         }
     }
 

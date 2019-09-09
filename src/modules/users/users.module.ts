@@ -26,19 +26,16 @@ import { UsersService } from './services/users.service';
         UserRepository,
     ],
 })
-export class UsersModule /*implements OnModuleInit*/ {
-/*
+export class UsersModule implements OnModuleInit {
     constructor(
         private readonly _event$: EventBus,
         private readonly _eventStore: EventStore,
     ) {}
 
     onModuleInit() {
-        /!** ------------ *!/
         this._eventStore.setEventHandlers(this.eventHandlers);
         this._eventStore.bridgeEventsTo((<any>this._event$).subject$);
         this._event$.publisher = this._eventStore;
-        /!** ------------ *!/
     }
 
     eventHandlers = {
@@ -47,5 +44,4 @@ export class UsersModule /*implements OnModuleInit*/ {
         UserUpdatedEvent: (data) => new UserUpdatedEvent(data),
         UserWelcomedEvent: (data) => new UserWelcomedEvent(data),
     };
-*/
 }

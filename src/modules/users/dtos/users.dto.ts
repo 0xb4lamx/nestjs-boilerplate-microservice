@@ -1,3 +1,4 @@
+import { ApiModelProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 
 export class UserIdRequestParamsDto {
@@ -7,9 +8,12 @@ export class UserIdRequestParamsDto {
 
 export class UserDto {
     @IsString()
-    readonly userId!: string;
+    @ApiModelProperty()
+    readonly id!: string;
     @IsString()
+    @ApiModelProperty()
     readonly firstName!: string;
     @IsString()
+    @ApiModelProperty()
     readonly lastName!: string;
 }

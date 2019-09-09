@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { User } from '../models/user.model';
+import { UserDto } from "../dtos/users.dto";
 
 @Injectable()
 export class UserRepository {
@@ -12,21 +13,30 @@ export class UserRepository {
     }
 
     async updateUser(userDto) {
-        const user = new User(userDto.userId);
+        const user = new User(userDto.id);
         user.setData(userDto);
         user.updateUser();
         return user;
     }
 
     async deleteUser(userDto) {
-        const user = new User(userDto.userId);
+        const user = new User(userDto.id);
         user.deleteUser();
         return user;
     }
 
     async welcomeUser(userDto) {
-        const user = new User(userDto.userId);
+        const user = new User(userDto.id);
         user.welcomeUser();
         return user;
     }
+
+    async findOneById(userDto): Promise<User[]> {
+        return [];
+    }
+
+    async findAll(): Promise<User[]> {
+        return [];
+    }
+
 }
