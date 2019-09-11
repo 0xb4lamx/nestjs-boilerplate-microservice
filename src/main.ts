@@ -43,7 +43,7 @@ async function bootstrap() {
     app.connectMicroservice({
         transport: Transport.TCP,
         options: {
-            port: configService.getNumber('TRANSPORT_PORT'),
+            port: configService.getNumber('TRANSPORT_PORT') || 4000,
             retryAttempts: 5,
             retryDelay: 3000,
         },
@@ -55,8 +55,8 @@ async function bootstrap() {
         setupSwagger(app);
     }
 
-    const port = configService.getNumber('PORT');
-    const host = configService.get('HOST');
+    const port = configService.getNumber('PORT') || 3000;
+    const host = configService.get('HOST') || '127.0.0.1';
     await app.listen(port, host);
 
     loggerService.warn(`server running on port ${host}:${port}`);
