@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
 import { User } from '../models/user.model';
-import { UserDto } from "../dtos/users.dto";
 
 @Injectable()
 export class UserRepository {

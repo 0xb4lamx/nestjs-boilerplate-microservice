@@ -1,6 +1,6 @@
 import { OnModuleInit, Module } from '@nestjs/common';
-import { ModuleRef } from '@nestjs/core';
-import { CommandBus, EventBus, CqrsModule } from '@nestjs/cqrs';
+import { EventBus, CqrsModule } from '@nestjs/cqrs';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { EventStore } from '../core/event-store/event-store';
 import { EventStoreModule } from '../core/event-store/event-store.module';
@@ -16,7 +16,10 @@ import { UsersSagas } from './sagas/users.sagas';
 import { UsersService } from './services/users.service';
 
 @Module({
-    imports: [CqrsModule, EventStoreModule.forFeature()],
+    imports: [
+        CqrsModule,
+        EventStoreModule.forFeature(),
+    ],
     controllers: [UsersController],
     providers: [
         UsersService,
