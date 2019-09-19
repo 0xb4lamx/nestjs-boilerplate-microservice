@@ -17,7 +17,7 @@ import { LoggerService } from './shared/services/logger.service';
 async function bootstrap() {
     initializeTransactionalContext();
     patchTypeORMRepositoryWithBaseRepository();
-    const app = await NestFactory.create<NestExpressApplication>(AppModule, new ExpressAdapter(), { cors: true, logger: false});
+    const app = await NestFactory.create<NestExpressApplication>(AppModule, new ExpressAdapter(), { cors: true});
 
     app.use(helmet());
     app.use(new RateLimit({

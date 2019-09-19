@@ -9,8 +9,12 @@ import { ConfigService } from './shared/services/config.service';
 
 @Module({
     imports: [
-        SharedModule,
         UsersModule,
+        TypeOrmModule.forRootAsync({
+            imports: [SharedModule],
+            useFactory: (configService: ConfigService) => configService.typeOrmConfig,
+            inject: [ConfigService],
+        }),
     ],
   controllers: [AppController],
   providers: [AppService],
