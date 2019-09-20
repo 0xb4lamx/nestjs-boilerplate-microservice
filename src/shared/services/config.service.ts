@@ -8,9 +8,9 @@ import { SnakeNamingStrategy } from '../../snake-naming.strategy';
 
 export class ConfigService {
     constructor() {
-        const nodeEnv = this.nodeEnv;
+
         dotenv.config({
-            path: `.${nodeEnv}.env`,
+            path: `.env`,
         });
 
         // Replace \\n with \n to support multiline strings in AWS
