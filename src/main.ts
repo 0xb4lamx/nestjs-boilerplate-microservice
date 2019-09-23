@@ -19,19 +19,19 @@ async function bootstrap() {
     patchTypeORMRepositoryWithBaseRepository();
     const app = await NestFactory.create<NestExpressApplication>(AppModule, new ExpressAdapter(), { cors: true});
 
+    const loggerService = app.select(SharedModule).get(LoggerService);
+    app.useLogger(loggerService);
+    app.use(morgan('combined', {stream: {write: (message) => {loggerService.log(message); }}}));
+
     app.use(helmet());
     app.use(new RateLimit({
         windowMs: 15 * 60 * 1000, // 15 minutes
         max: 100, // limit each IP to 100 requests per windowMs
     }));
 
-    const loggerService = app.select(SharedModule).get(LoggerService);
-    app.useLogger(loggerService);
-    app.use(morgan('combined', {stream: {write: (message) => {loggerService.log(message); }}}));
-
     const reflector = app.get(Reflector);
 
-    app.useGlobalFilters(new HttpErrorFilter(reflector));
+    app.useGlobalFilters(new HttpErrorFilter(reflector, loggerService));
     app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
     app.useGlobalPipes(new ValidationPipe({
         whitelist: true,

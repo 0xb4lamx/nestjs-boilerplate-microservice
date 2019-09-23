@@ -8,6 +8,12 @@
     "scripts": {
         "build": "rimraf dist && tsc -p tsconfig.build.json",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+        "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+        "migration:generate": "ts-node node_modules/typeorm/cli.js migration:generate -f ormconfig -d src/migrations -n",
+        "migration:revert": "ts-node node_modules/typeorm/cli.js migration:revert -f ormconfig",
+        "migration:create": "ts-node node_modules/typeorm/cli.js migration:create -f ormconfig -d src/migrations -n",
+        "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run -f ormconfig",
+        "schema:drop": "ts-node node_modules/typeorm/cli.js schema:drop -f ormconfig",
         "start": "ts-node -r tsconfig-paths/register src/main.ts",
         "start:dev": "tsc-watch -p tsconfig.build.json --onSuccess \"node dist/main.js\"",
         "start:debug": "tsc-watch -p tsconfig.build.json --onSuccess \"node --inspect-brk dist/main.js\"",

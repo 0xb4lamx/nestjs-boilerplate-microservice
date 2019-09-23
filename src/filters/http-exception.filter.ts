@@ -8,10 +8,12 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
+import { LoggerService } from '../shared/services/logger.service';
+
 @Catch()
 export class HttpErrorFilter implements ExceptionFilter {
 
-    constructor(public reflector: Reflector) {}
+    constructor(public reflector: Reflector, private readonly _logger: LoggerService) {}
 
     catch(exception: HttpException, host: ArgumentsHost) {
         const ctx = host.switchToHttp();
@@ -35,13 +37,13 @@ export class HttpErrorFilter implements ExceptionFilter {
         };
 
         if (status === HttpStatus.INTERNAL_SERVER_ERROR) {
-            Logger.error(
+            this._logger.error(
                 `${request.method} ${request.url}`,
                 exception.stack,
                 'ExceptionFilter',
             );
         } else {
-            Logger.error(
+            this._logger.error(
                 `${request.method} ${request.url}`,
                 JSON.stringify(errorResponse),
                 'ExceptionFilter',

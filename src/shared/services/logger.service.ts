@@ -23,9 +23,9 @@ export class LoggerService extends Logger {
     debug(message: string): void {
         this._logger.debug(message);
     }
-    error(message: string, trace?: any): void {
+    error(message: string, trace?: any, context?: string): void {
         // i think the trace should be JSON Stringified
-        this._logger.error(`${message} -> (${trace || 'trace not provided !'})`);
+        this._logger.error(`${context || ''} ${message} -> (${trace || 'trace not provided !'})`);
     }
     warn(message: string): void {
         this._logger.warn(message);
