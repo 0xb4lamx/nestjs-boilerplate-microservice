@@ -1,11 +1,11 @@
 'use strict';
-
+import { AggregateRoot } from '@nestjs/cqrs';
 import { PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 import { UtilsService } from '../providers/utils.service';
 import { AbstractDto } from './dto/AbstractDto';
 
-export abstract class AbstractEntity<T extends AbstractDto = AbstractDto> {
+export abstract class AbstractEntity<T extends AbstractDto = AbstractDto> extends AggregateRoot {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 

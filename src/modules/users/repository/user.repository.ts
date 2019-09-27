@@ -1,32 +1,34 @@
-import { Injectable } from '@nestjs/common';
+import { Repository, EntityRepository } from 'typeorm';
 
-import { User } from '../models/user.model';
+import { UserDto } from '../dtos/user.dto';
+import { UserRegisterDto } from '../dtos/userRegister.dto';
+import { User } from '../entities/user.entity';
 
-@Injectable()
-export class UserRepository {
-    async createUser(userDto) {
-        const user = new User(undefined);
-        user.setData(userDto);
-        user.createUser();
+@EntityRepository(User)
+export class UserRepository extends Repository<User> {
+
+    async createUser(userRegisterDto: UserRegisterDto) {
+        const user = super.create(userRegisterDto);
+        this.save(user);
+        user.create();
         return user;
     }
 
     async updateUser(userDto) {
-        const user = new User(userDto.id);
-        user.setData(userDto);
-        user.updateUser();
+        const user = new User();
+        user.update();
         return user;
     }
 
     async deleteUser(userDto) {
-        const user = new User(userDto.id);
-        user.deleteUser();
+        const user = new User();
+        user.delete();
         return user;
     }
 
     async welcomeUser(userDto) {
-        const user = new User(userDto.id);
-        user.welcomeUser();
+        const user = new User();
+        user.welcome();
         return user;
     }
 

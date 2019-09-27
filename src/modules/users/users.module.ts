@@ -19,6 +19,7 @@ import { UsersService } from './services/users.service';
     imports: [
         CqrsModule,
         EventStoreModule.forFeature(),
+        TypeOrmModule.forFeature([UserRepository]),
     ],
     controllers: [UsersController],
     providers: [
@@ -26,7 +27,6 @@ import { UsersService } from './services/users.service';
         UsersSagas,
         ...CommandHandlers,
         ...EventHandlers,
-        UserRepository,
     ],
 })
 export class UsersModule implements OnModuleInit {

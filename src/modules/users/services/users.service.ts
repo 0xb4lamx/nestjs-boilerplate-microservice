@@ -4,8 +4,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateUserCommand } from '../commands/impl/create-user.command';
 import { DeleteUserCommand } from '../commands/impl/delete-user.command';
 import { UpdateUserCommand } from '../commands/impl/update-user.command';
-import { UserDto, UserIdRequestParamsDto } from '../dtos/users.dto';
-import { User } from '../models/user.model';
+import { UserDto, UserIdRequestParamsDto } from '../dtos/user.dto';
 import { GetUserQuery } from '../queries/impl/get-user.query';
 import { GetUsersQuery } from '../queries/impl/get-users.query';
 
@@ -28,7 +27,7 @@ export class UsersService {
         return this._commandBus.execute(new DeleteUserCommand(user));
     }
 
-    async findOneById(user: UserIdRequestParamsDto): Promise<User> {
+    async findOneById(user: UserIdRequestParamsDto): Promise<UserDto> {
         return this._queryBus.execute(new GetUserQuery(user));
     }
 

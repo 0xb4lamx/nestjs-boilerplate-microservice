@@ -9,8 +9,10 @@ import {
     HttpStatus,
 } from '@nestjs/common';
 import { ApiUseTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
+import * as uuidv4 from 'uuid/v4';
 
-import { UserDto, UserIdRequestParamsDto } from '../dtos/users.dto';
+import { UserDto, UserIdRequestParamsDto } from '../dtos/user.dto';
+import { UserRegisterDto } from '../dtos/userRegister.dto';
 import { UsersService } from '../services/users.service';
 
 @Controller('users')
@@ -23,9 +25,9 @@ export class UsersController {
     @ApiOperation({ title: 'Create User' })
     @ApiResponse({ status: HttpStatus.CREATED, description: 'User Created.' })
     @Post()
-    async createUser(@Body() userDto: UserDto): Promise<UserDto> {
-        const id = Math.floor(Math.random() * (999 - 100 + 1) + 100);
-        return this._usersService.createUser({ ...userDto, ...{ id } });
+    async createUser(@Body() userRegisterDto: UserRegisterDto): Promise<UserDto> {
+        const id = uuidv4();
+        return this._usersService.createUser({ ...userRegisterDto, ...{ id } });
     }
 
     /* Update User */
