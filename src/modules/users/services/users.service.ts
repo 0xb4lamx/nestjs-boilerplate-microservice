@@ -5,6 +5,7 @@ import { CreateUserCommand } from '../commands/impl/create-user.command';
 import { DeleteUserCommand } from '../commands/impl/delete-user.command';
 import { UpdateUserCommand } from '../commands/impl/update-user.command';
 import { UserDto, UserIdRequestParamsDto } from '../dtos/user.dto';
+import { UserRegisterDto } from '../dtos/userRegister.dto';
 import { GetUserQuery } from '../queries/impl/get-user.query';
 import { GetUsersQuery } from '../queries/impl/get-users.query';
 
@@ -15,7 +16,7 @@ export class UsersService {
         private readonly _queryBus: QueryBus,
     ) {}
 
-    async createUser(user: any) {
+    async createUser(user: UserRegisterDto) {
         return this._commandBus.execute(new CreateUserCommand(user));
     }
 

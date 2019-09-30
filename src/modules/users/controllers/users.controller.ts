@@ -25,21 +25,21 @@ export class UsersController {
     /*--------------------------------------------*/
     @ApiOperation({ title: 'Update User' })
     @ApiResponse({ status: HttpStatus.OK, description: 'Update User.' })
-    @Put(':userId')
+    @Put(':id')
     async updateUser(
-        @Param() userId: UserIdRequestParamsDto,
-        @Body() userDto: UserDto,
+        @Param() id: UserIdRequestParamsDto,
+        @Body() userDto: any,
     ) {
-        return this._usersService.updateUser({ ...userId, ...userDto });
+        return this._usersService.updateUser({ ...id, ...userDto });
     }
 
     /* Delete User */
     /*--------------------------------------------*/
     @ApiOperation({ title: 'Delete User' })
     @ApiResponse({ status: HttpStatus.OK, description: 'Delete User.' })
-    @Delete(':userId')
-    async deleteUser(@Param() userId: UserIdRequestParamsDto) {
-        return this._usersService.deleteUser(userId);
+    @Delete(':id')
+    async deleteUser(@Param() id: UserIdRequestParamsDto) {
+        return this._usersService.deleteUser(id);
     }
 
     /*--------------------------------------------*/

@@ -19,5 +19,6 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
             await this._repository.createUser(userRegisterDto),
         );
         user.commit();
+        return user.toDto();
     }
 }
