@@ -11,6 +11,7 @@ import { UserCreatedEvent } from './events/impl/user-created.event';
 import { UserDeletedEvent } from './events/impl/user-deleted.event';
 import { UserUpdatedEvent } from './events/impl/user-updated.event';
 import { UserWelcomedEvent } from './events/impl/user-welcomed.event';
+import { QueryHandlers } from './queries/handlers';
 import { UserRepository } from './repository/user.repository';
 import { UsersSagas } from './sagas/users.sagas';
 import { UsersService } from './services/users.service';
@@ -27,6 +28,7 @@ import { UsersService } from './services/users.service';
         UsersSagas,
         ...CommandHandlers,
         ...EventHandlers,
+        ...QueryHandlers,
     ],
 })
 export class UsersModule implements OnModuleInit {

@@ -1,5 +1,6 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 
+import { UserNotFoundException } from '../../../../exceptions/user-not-found.exception';
 import { LoggerService } from '../../../../shared/services/logger.service';
 import { UserRepository } from '../../repository/user.repository';
 import { GetUserQuery } from '../impl/get-user.query';
@@ -11,6 +12,11 @@ export class GetUserHandler implements IQueryHandler<GetUserQuery> {
 
     async execute(query: GetUserQuery) {
         this._logger.log('[query] Async GetUserQuery...');
-        return this._repository.findOneById(query);
+        const { findData } = query;
+        const user = await this._repository.findOne(findData);
+        if (!user) {
+            throw new UserNotFoundException();
+        }
+        return user.toDto();
     }
 }

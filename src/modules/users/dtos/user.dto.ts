@@ -6,7 +6,8 @@ import { User } from '../entities/user.entity';
 
 export class UserIdRequestParamsDto {
     @IsString()
-    readonly userId!: string;
+    @ApiModelProperty()
+    readonly id!: string;
 }
 
 export class UserDto extends AbstractDto {

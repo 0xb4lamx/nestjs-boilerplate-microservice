@@ -20,7 +20,7 @@ export class User extends AbstractEntity<UserDto> {
 
     dtoClass = UserDto;
 
-    create() {
+    create() {// TODO improve the naming of those functions ( something related to Events, maybe sth like onUserCreated() ... )
         this.apply(new UserCreatedEvent(this.toDto()));
     }
 

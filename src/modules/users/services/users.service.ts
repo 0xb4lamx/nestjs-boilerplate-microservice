@@ -28,10 +28,10 @@ export class UsersService {
     }
 
     async findOneById(user: UserIdRequestParamsDto): Promise<UserDto> {
-        return this._queryBus.execute(new GetUserQuery(user));
+        return this._queryBus.execute(new GetUserQuery({ id: user.id }));
     }
 
-    async findUsers() {
+    async findUsers(): Promise<UserDto[]> {
         return this._queryBus.execute(new GetUsersQuery());
     }
 }

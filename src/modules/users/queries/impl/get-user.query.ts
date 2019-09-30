@@ -1,7 +1,8 @@
 import { IQuery } from '@nestjs/cqrs';
+import { FindConditions } from 'typeorm';
 
-import { UserIdRequestParamsDto } from '../../dtos/user.dto';
+import { User } from '../../entities/user.entity';
 
 export class GetUserQuery implements IQuery {
-    constructor(public readonly userDto: UserIdRequestParamsDto) {}
+    constructor(public readonly findData: FindConditions<User>) {}
 }

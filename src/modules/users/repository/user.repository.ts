@@ -32,12 +32,4 @@ export class UserRepository extends Repository<User> {
         return user;
     }
 
-    async findOneById(userDto): Promise<User[]> {
-        return [];
-    }
-
-    async findAll(): Promise<User[]> {
-        return [];
-    }
-
 }

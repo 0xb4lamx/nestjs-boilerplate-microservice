@@ -1,13 +1,4 @@
-import {
-    Controller,
-    Get,
-    Post,
-    Param,
-    Body,
-    Delete,
-    Put,
-    HttpStatus,
-} from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, Delete, Put, HttpStatus } from '@nestjs/common';
 import { ApiUseTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
 import * as uuidv4 from 'uuid/v4';
 
@@ -51,7 +42,6 @@ export class UsersController {
         return this._usersService.deleteUser(userId);
     }
 
-    /* TODO: List Users */
     /*--------------------------------------------*/
     @ApiOperation({ title: 'List Users' })
     @ApiResponse({ status: HttpStatus.OK, description: 'List Users.' })
@@ -60,12 +50,11 @@ export class UsersController {
         return this._usersService.findUsers();
     }
 
-    /* TODO: Find User */
     /*--------------------------------------------*/
     @ApiOperation({ title: 'Get User' })
     @ApiResponse({ status: HttpStatus.OK, description: 'Get User.' })
-    @Get(':userId')
-    async findOneUser(@Param() userId: UserIdRequestParamsDto) {
-        return this._usersService.findOneById(userId);
+    @Get(':id')
+    async findOneUser(@Param() id: UserIdRequestParamsDto) {
+        return this._usersService.findOneById(id);
     }
 }
