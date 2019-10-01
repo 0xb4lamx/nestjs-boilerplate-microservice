@@ -25,10 +25,10 @@ import { UsersService } from './services/users.service';
     controllers: [UsersController],
     providers: [
         UsersService,
-        UsersSagas,
         ...CommandHandlers,
         ...EventHandlers,
         ...QueryHandlers,
+        UsersSagas,
     ],
 })
 export class UsersModule implements OnModuleInit {

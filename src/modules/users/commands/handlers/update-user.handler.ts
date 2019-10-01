@@ -19,6 +19,5 @@ export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {
             await this._repository.updateUser(userDto),
         );
         user.commit();
-        return user.toDto();
     }
 }

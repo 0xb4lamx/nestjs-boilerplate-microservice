@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Param, Body, Delete, Put, HttpStatus } from '@nestjs/common';
 import { ApiUseTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
-import * as uuidv4 from 'uuid/v4';
 
-import { UserDto, UserIdRequestParamsDto } from '../dtos/user.dto';
+import { UserDto } from '../dtos/user.dto';
+import { UserIdRequestParamsDto } from '../dtos/userIdRequestParams.dto';
 import { UserRegisterDto } from '../dtos/userRegister.dto';
 import { UsersService } from '../services/users.service';
 
@@ -17,8 +17,7 @@ export class UsersController {
     @ApiResponse({ status: HttpStatus.CREATED, description: 'User Created.' })
     @Post()
     async createUser(@Body() userRegisterDto: UserRegisterDto): Promise<UserDto> {
-        const id = uuidv4();
-        return this._usersService.createUser({ ...userRegisterDto, ...{ id } });
+        return this._usersService.createUser(userRegisterDto);
     }
 
     /* Update User */
@@ -46,7 +45,7 @@ export class UsersController {
     @ApiOperation({ title: 'List Users' })
     @ApiResponse({ status: HttpStatus.OK, description: 'List Users.' })
     @Get()
-    async findUsers() {
+    async findUsers(): Promise<UserDto[]> {
         return this._usersService.findUsers();
     }
 
@@ -54,7 +53,7 @@ export class UsersController {
     @ApiOperation({ title: 'Get User' })
     @ApiResponse({ status: HttpStatus.OK, description: 'Get User.' })
     @Get(':id')
-    async findOneUser(@Param() id: UserIdRequestParamsDto) {
+    async findOneUser(@Param() id: UserIdRequestParamsDto): Promise<UserDto> {
         return this._usersService.findOneById(id);
     }
 }

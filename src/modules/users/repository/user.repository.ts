@@ -1,4 +1,5 @@
 import { Repository, EntityRepository } from 'typeorm';
+import * as uuidv4 from 'uuid/v4';
 
 import { UserRegisterDto } from '../dtos/userRegister.dto';
 import { User } from '../entities/user.entity';
@@ -7,8 +8,8 @@ import { User } from '../entities/user.entity';
 export class UserRepository extends Repository<User> {
 
     async createUser(userRegisterDto: UserRegisterDto) {
-        const user = super.create(userRegisterDto);
-        this.save(user);
+        const id = uuidv4();
+        const user = await this.save(super.create({...{id}, ...userRegisterDto}));
         user.create();
         return user;
     }

@@ -4,12 +4,6 @@ import { IsString, IsEmail, IsNotEmpty } from 'class-validator';
 import { AbstractDto } from '../../../common/dto/AbstractDto';
 import { User } from '../entities/user.entity';
 
-export class UserIdRequestParamsDto {
-    @IsString()
-    @ApiModelProperty()
-    readonly id!: string;
-}
-
 export class UserDto extends AbstractDto {
     @IsString()
     @ApiModelProperty()
