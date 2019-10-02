@@ -11,6 +11,7 @@ export CONTAINER_NAME="devtest"
 export DEFAULT_PORT="3000"
 export PORT=""
 export DEBUG_PORT="9229"
+export HOST="0.0.0.0"
 # ---- EVENSTORE PARAMS ----
 export EVENTSTORE_CONTAINER_NAME="eventstore"
 export EVENTSTORE_PROTOCOL="http"

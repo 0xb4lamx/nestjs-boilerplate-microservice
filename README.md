@@ -18,7 +18,7 @@ This section will cover the steps to follow for a containerized version of this 
 ### Installation
 
 ```bash
-cd scripts && sh build.sh
+cd scripts && sudo sh build.sh
 ```
 *The build script Will:*
 * Create private network for containers.
