@@ -27,7 +27,7 @@ export class UsersController {
     @Put(':id')
     async updateUser(
         @Param() id: UserIdRequestParamsDto,
-        @Body() userDto: any,
+        @Body() userDto: UserDto,
     ) {
         return this._usersService.updateUser({ ...id, ...userDto });
     }

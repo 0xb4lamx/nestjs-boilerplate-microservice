@@ -23,10 +23,12 @@ export class UserDto extends AbstractDto {
     @ApiModelProperty()
     readonly email: string;
 
-    constructor(user: User) {
+    constructor(user?: User) {
         super(user);
-        this.firstName = user.firstName;
-        this.lastName = user.lastName;
-        this.email = user.email;
+        if (user) {
+            this.firstName = user.firstName;
+            this.lastName = user.lastName;
+            this.email = user.email;
+        }
     }
 }

@@ -7,10 +7,12 @@ export class AbstractDto {
     createdAt: Date;
     updatedAt: Date;
 
-    constructor(entity: AbstractEntity) {
-        this.id = entity.id;
-        this.createdAt = entity.createdAt;
-        this.updatedAt = entity.updatedAt;
+    constructor(entity?: AbstractEntity) {
+        if (entity) {
+            this.id = entity.id;
+            this.createdAt = entity.createdAt;
+            this.updatedAt = entity.updatedAt;
+        }
     }
 
 }

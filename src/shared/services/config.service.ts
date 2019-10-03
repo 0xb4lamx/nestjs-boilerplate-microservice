@@ -70,12 +70,19 @@ export class ConfigService {
     get eventStoreConfig() {
         return {
             protocol: this.get('EVENT_STORE_PROTOCOL') || 'http',
-            hostname: this.get('EVENT_STORE_HOSTNAME') || '0.0.0.0',
-            tcpPort: this.getNumber('EVENT_STORE_TCP_PORT') ||  1113,
-            httpPort: this.getNumber('EVENT_STORE_HTTP_PORT') ||  2113,
-            credentials: {
-                username: this.get('EVENT_STORE_CREDENTIALS_USERNAME') ||  'admin',
-                password: this.get('EVENT_STORE_CREDENTIALS_PASSWORD') ||  'changeit',
+            connectionSettings: {
+                defaultUserCredentials: {
+                    username: this.get('EVENT_STORE_CREDENTIALS_USERNAME') ||  'admin',
+                    password: this.get('EVENT_STORE_CREDENTIALS_PASSWORD') ||  'changeit',
+                },
+            },
+            tcpEndpoint: {
+                host: this.get('EVENT_STORE_HOSTNAME') || 'localhost',
+                port: this.getNumber('EVENT_STORE_TCP_PORT') ||  1113,
+            },
+            httpEndpoint: {
+                host: this.get('EVENT_STORE_HOSTNAME') || 'localhost',
+                port: this.getNumber('EVENT_STORE_HTTP_PORT') ||  2113,
             },
             poolOptions: {
                 min: this.getNumber('EVENT_STORE_POOLOPTIONS_MIN') || 1,

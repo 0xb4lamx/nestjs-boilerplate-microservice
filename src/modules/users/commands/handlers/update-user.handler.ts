@@ -1,5 +1,6 @@
 import { Logger } from '@nestjs/common';
-import { EventPublisher, ICommandHandler, CommandHandler } from '@nestjs/cqrs';
+import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
+import { EventPublisher } from 'nestjs-eventstore';
 
 import { UserRepository } from '../../repository/user.repository';
 import { UpdateUserCommand } from '../impl/update-user.command';

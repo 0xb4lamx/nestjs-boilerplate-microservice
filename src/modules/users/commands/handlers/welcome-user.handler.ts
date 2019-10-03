@@ -1,5 +1,6 @@
 import { Logger } from '@nestjs/common';
-import { EventPublisher, ICommandHandler, CommandHandler } from '@nestjs/cqrs';
+import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
+import { EventPublisher } from 'nestjs-eventstore';
 
 import { UserRepository } from '../../repository/user.repository';
 import { WelcomeUserCommand } from '../impl/welcome-user.command';
@@ -13,9 +14,9 @@ export class WelcomeUserHandler implements ICommandHandler<WelcomeUserCommand> {
 
     async execute(command: WelcomeUserCommand) {
         Logger.log('Async WelcomeUserHandler...', 'WelcomeUserCommand');
-        const { userId } = command;
+        const { id } = command;
         const user = this._publisher.mergeObjectContext(
-            await this._repository.welcomeUser({ userId }),
+            await this._repository.welcomeUser({ id }),
         );
         user.commit();
     }

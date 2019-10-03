@@ -21,14 +21,14 @@ export class UserRepository extends Repository<User> {
         return updatedUser;
     }
 
-    async deleteUser(userDto) {
+    async deleteUser(userDto) {// Todo
         const user = new User();
         user.delete();
         return user;
     }
 
-    async welcomeUser(userDto) {
-        const user = new User();
+    async welcomeUser(userDto) {// Todo
+        const user = await super.findOne({ id: userDto.id });
         user.welcome();
         return user;
     }

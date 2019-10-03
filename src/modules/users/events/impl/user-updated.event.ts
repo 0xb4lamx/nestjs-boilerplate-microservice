@@ -1,7 +1,3 @@
-import { IEvent } from '@nestjs/cqrs';
+import { UserAbstractEvent } from './abstract.event';
 
-import { UserDto } from '../../dtos/user.dto';
-
-export class UserUpdatedEvent implements IEvent {
-    constructor(public readonly userDto: UserDto) {}
-}
+export class UserUpdatedEvent extends UserAbstractEvent {}
