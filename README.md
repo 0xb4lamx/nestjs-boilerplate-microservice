@@ -43,6 +43,7 @@ This section will cover the steps to follow for a local version of this project.
 * A running Node Server. Reffer to [official documentation](https://nodejs.org/en/download/) for intructions.
 * [npm](https://www.npmjs.com)
 
+**PS**: in order to start receiving events from the **EventStore**, you should [enable projections](https://eventstore.org/docs/projections/system-projections/index.html?tabs=tabid-5#enabling-system-projections). (disabled by default)
 ### Installation
 
 ```bash
