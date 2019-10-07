@@ -41,6 +41,9 @@ docker run  --name ${DB_CONTANER_NAME} --mount type=bind,source=$HOME/mysql-data
 docker run -d --name ${EVENTSTORE_CONTAINER_NAME} --mount type=bind,source=$HOME/eventstore-data-dir,target=/var/lib/eventstore --network ${NETWORK_NAME} -p ${EVENTSTORE_HTTP_PORT}:${EVENTSTORE_HTTP_PORT} -p ${EVENTSTORE_TCP_PORT}:${EVENTSTORE_TCP_PORT} \
 eventstore/eventstore  
 
+# ---- deploying adminer ----
+docker run --name ${ADMINER_CONTAINER_NAME} -d --network ${NETWORK_NAME} -p ${ADMINER_PORT}:${ADMINER_PORT} amd64/adminer:4.7.3-standalone
+
 # ---- installing dependencies ----
 npm install ../
 
