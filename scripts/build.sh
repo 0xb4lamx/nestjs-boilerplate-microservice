@@ -20,13 +20,25 @@ then
 docker network create --driver bridge ${NETWORK_NAME}
 fi
 
+# ---- setting mount directories ----
+if [ -f  $HOME/mysql-data-dir ] 
+then
+  mkdir $HOME/mysql-data-dir 
+  chown $USER:$USER $HOME/mysql-data-dir
+fi 
+if [ -f $HOME/eventstore-data-dir ]
+then
+mkdir $HOME/eventstore-data-dir
+chown $USER:$USER $HOME/eventstore-data-dir
+fi
+
 # ---- deploying mysql database ----
-docker run  --name ${DB_CONTANER_NAME} --network ${NETWORK_NAME} -e MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD} -e MYSQL_DATABASE=${DB_ROOT_DATABASE} \
+docker run  --name ${DB_CONTANER_NAME} --mount type=bind,source=$HOME/mysql-data-dir,target=/var/lib/mysql --network ${NETWORK_NAME} -e MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD} -e MYSQL_DATABASE=${DB_ROOT_DATABASE} \
 -d mysql:5.7 --character-set-server=utf8mb4 \
 --collation-server=utf8mb4_unicode_ci
 
 # ---- deploying event store ----
-docker run -d --name ${EVENTSTORE_CONTAINER_NAME} --network ${NETWORK_NAME} -p ${EVENTSTORE_HTTP_PORT}:${EVENTSTORE_HTTP_PORT} -p ${EVENTSTORE_TCP_PORT}:${EVENTSTORE_TCP_PORT} \
+docker run -d --name ${EVENTSTORE_CONTAINER_NAME} --mount type=bind,source=$HOME/eventstore-data-dir,target=/var/lib/eventstore --network ${NETWORK_NAME} -p ${EVENTSTORE_HTTP_PORT}:${EVENTSTORE_HTTP_PORT} -p ${EVENTSTORE_TCP_PORT}:${EVENTSTORE_TCP_PORT} \
 eventstore/eventstore  
 
 # ---- installing dependencies ----
