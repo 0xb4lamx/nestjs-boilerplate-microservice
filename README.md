@@ -38,11 +38,13 @@ cd scripts && sudo sh build.sh
 ### Access
 - **EventStore**: 
   - **credentials**: 
+  
     |User|Password|
     |--|--|
     |admin|changeit|
 - **Adminer**
   - **Form**
+  
     |Server|User|Password|Database
     |--|--|--|--|
     |sql-db|root|root|b2h-db|
