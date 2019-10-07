@@ -23,6 +23,7 @@ cd scripts && sudo sh build.sh
 *The build script Will:*
 * Create private network for containers.
 * Configure and deploy MYSQL container.
+* Configure and deploy Adminer container.
 * Configure and deploy EventStore container.
 * Configure and deploy nestjs-boilerplate container.
 * Connect containers to private network.
@@ -31,8 +32,20 @@ cd scripts && sudo sh build.sh
 ### Usage
 - To access the App home page navigate to http://localhost:3000  [DEFAULT PORT].
 - To access the EventStore Admin UI navigate to http://localhost:2113 [DEFAULT PORT].
-- To login to the EventStore use the following *credentials*: user: admin | password: changeit [DEFAULT CREDENTIALS].
+- To access the Adminer UI navigate to http://localhost:8080 [DEFAULT PORT].
 - To change default setting, edit script/dev/evVAr.sh
+
+### Access
+- **EventStore**: 
+  - **credentials**: 
+    |User|Password|
+    |--|--|
+    |admin|changeit|
+- **Adminer**
+  - **Form**
+    |Server|User|Password|Database
+    |--|--|--|--|
+    |sql-db|root|root|b2h-db|
 
 ### local Environment
 This section will cover the steps to follow for a local version of this project.
