@@ -2,10 +2,14 @@
 ## Description
 
 Microservice boilerplate based on [Nest](https://github.com/nestjs/nest), a framework TypeScript.
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. This project cover both, running on a containerized environment using Docker, or on your local machine.  
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. This project cover both, running on a containerized environment using Docker, or on your local machine.
+
+[Guidelines](docs/guidelines.md#guidelines)
 
 ## Setup
 
@@ -28,6 +32,8 @@ cd scripts && sudo sh build.sh
 * Configure and deploy nestjs-boilerplate container.
 * Connect containers to private network.
 * Enables hot-reloading by mounting working directories inside nestjs-boilerplate container. 
+* Create and mount data directory to mysql container for persistence under $HOME/mysql-data-dir.
+* Create and mount data directory to EventStore container for persistence under $HOME/eventstore-data-dir.
 
 ### Usage
 - To access the App home page navigate to http://localhost:3000  [DEFAULT PORT].
@@ -48,6 +54,39 @@ cd scripts && sudo sh build.sh
     |Server|User|Password|Database
     |--|--|--|--|
     |sql-db|root|root|b2h-db|
+- **Microservice Docker Container**
+    ```bash
+        sudo docker exec -it devtest bash
+    ```
+### Clean up
+**Soft clean up**
+```bash
+cd scripts && sudo sh cleanup.sh
+```
+
+*The cleanup script soft Will:*
+* Remove private network.
+* Stop and remove MYSQL container.
+* Stop and remove Adminer container.
+* Stop and remove EventStore container.
+
+
+**Hard clean up**
+```bash
+#both commands are equivalent
+#option1 
+cd scripts && sudo sh cleanup.sh -h
+#option2
+cd scripts && sudo sh cleanup.sh --hard
+```
+*The cleanup script hard Will:*
+* Remove private network.
+* Stop and remove MYSQL container.
+* Stop and remove Adminer container.
+* Stop and remove EventStore container.
+* Delete Mysql data directory.
+* Delete EventStore data directory.
+
 
 ### local Environment
 This section will cover the steps to follow for a local version of this project.
