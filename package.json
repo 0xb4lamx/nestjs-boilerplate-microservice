@@ -11,6 +11,7 @@
     },
     "bugs": "https://github.com/0xb4lamx/nestjs-boilerplate-microservice/issues",
     "scripts": {
+        "commit": "npx git-cz",
         "build": "rimraf dist && tsc -p tsconfig.build.json",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
         "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
@@ -92,7 +93,11 @@
         "tslint-consistent-codestyle": "^1.15.1",
         "tslint-eslint-rules": "^5.4.0",
         "tslint-plugin-prettier": "^2.0.1",
-        "typescript": "^3.4.3"
+        "typescript": "^3.4.3",
+        "@commitlint/cli": "^8.2.0",
+        "@commitlint/config-conventional": "^8.2.0",
+        "cz-conventional-changelog": "^3.0.2",
+        "husky": "^3.0.8"
     },
     "jest": {
         "moduleFileExtensions": [
@@ -116,5 +121,16 @@
             "tslint --fix -p .",
             "git add"
         ]
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog",
+            "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
+        }
+    },
+    "husky": {
+        "hooks": {
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+        }
     }
 }
