@@ -103,6 +103,10 @@ This section will cover the steps to follow for a local version of this project.
 ```bash
 $ npm install
 ```
+
+### Database setup
+* using TypeORM CLI. Reffer to [migration documentation](https://github.com/typeorm/typeorm/blob/master/docs/migrations.md#migrations) for intructions.
+
 ### Running the app
 
 ```bash
