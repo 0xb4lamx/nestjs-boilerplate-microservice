@@ -1,0 +1,27 @@
+{
+    "branches": [
+      "master",
+      {"name":"develop", "channel":"next"},
+      {"name": "pre/rc", "prerelease": "${name.replace(/^pre\\//g,'')}"}
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ],
+      [
+        "@semantic-release/git",
+        {
+          "assets": ["package-lock.json","package.json", "CHANGELOG.md"],
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ],
+      "@semantic-release/github"
+    ]
+  }
+  
