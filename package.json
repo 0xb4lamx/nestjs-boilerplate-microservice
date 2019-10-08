@@ -1,7 +1,7 @@
 {
     "name": "b2h-microservice-boilerplate",
     "private": true,
-    "version": "0.0.1",
+    "version": "1.0.0",
     "description": "Nest TypeScript boilerplate repository",
     "author": "Med Ghaith Sellami <medghaith.sellami@gmail.com>",
     "license": "MIT",
