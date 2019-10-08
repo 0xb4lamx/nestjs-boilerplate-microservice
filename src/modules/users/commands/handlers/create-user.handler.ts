@@ -13,7 +13,7 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
         private readonly _publisher: EventPublisher,
     ) {}
 
-    async execute(command: CreateUserCommand): Promise<UserDto> {
+    async execute(command: CreateUserCommand) {
         Logger.log('Async CreateUserHandler...', 'CreateUserCommand');
 
         const { userRegisterDto } = command;
@@ -21,6 +21,5 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
             await this._repository.createUser(userRegisterDto),
         );
         user.commit();
-        return user.toDto();
     }
 }
