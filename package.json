@@ -11,6 +11,7 @@
     },
     "bugs": "https://github.com/0xb4lamx/nestjs-boilerplate-microservice/issues",
     "scripts": {
+        "release": "npx -p @semantic-release/changelog -p @semantic-release/git@beta -p semantic-release@beta  semantic-release --no-ci",
         "commit": "npx git-cz",
         "build": "rimraf dist && tsc -p tsconfig.build.json",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
