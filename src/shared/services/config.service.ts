@@ -5,6 +5,7 @@ import * as DailyRotateFile from 'winston-daily-rotate-file';
 
 import { IAwsConfigInterface } from '../../interfaces/aws-config.interface';
 import { SnakeNamingStrategy } from '../../snake-naming.strategy';
+import { LoggerService } from "./logger.service";
 
 export class ConfigService {
     constructor() {
@@ -75,6 +76,9 @@ export class ConfigService {
                     username: this.get('EVENT_STORE_CREDENTIALS_USERNAME') ||  'admin',
                     password: this.get('EVENT_STORE_CREDENTIALS_PASSWORD') ||  'changeit',
                 },
+                verboseLogging: true,
+                failOnNoServerResponse: true,
+                // log: console, // TODO: improve Eventstore logger (separate chanel)
             },
             tcpEndpoint: {
                 host: this.get('EVENT_STORE_HOSTNAME') || 'localhost',

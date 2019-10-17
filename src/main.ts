@@ -9,7 +9,7 @@ import { initializeTransactionalContext, patchTypeORMRepositoryWithBaseRepositor
 
 import { AppModule } from './app.module';
 import { setupSwagger } from './b2h-swagger';
-import { HttpErrorFilter } from './filters/http-exception.filter';
+import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { SharedModule } from './shared.module';
 import { ConfigService } from './shared/services/config.service';
 import { LoggerService } from './shared/services/logger.service';
@@ -31,7 +31,7 @@ async function bootstrap() {
 
     const reflector = app.get(Reflector);
 
-    app.useGlobalFilters(new HttpErrorFilter(reflector, loggerService));
+    app.useGlobalFilters(new HttpExceptionFilter(reflector, loggerService));
     app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
     app.useGlobalPipes(new ValidationPipe({
         whitelist: true,

@@ -241,7 +241,7 @@
             true,
             "allow-void-expression"
         ],
-        "no-unnecessary-else": true,
+//        "no-unnecessary-else": true,
         "no-unnecessary-type-annotation": true,
         "no-var-before-return": true,
         "object-shorthand-properties-first": true,

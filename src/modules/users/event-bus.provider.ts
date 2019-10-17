@@ -17,17 +17,22 @@ const UserEventInstantiators = {
 
 export const eventStoreBusConfig: EventStoreBusConfig = {
     subscriptions: [ // TODO: read about subs in eventStore, how can they help us.
-        {
-            // persistent subscription
-            type: EventStoreSubscriptionType.Persistent,
-            stream: '$ce-users',
-            persistentSubscriptionName: 'g1',
-        },
+        // {
+        //     // persistent subscription
+        //     type: EventStoreSubscriptionType.Persistent,
+        //     stream: '$ce-users',
+        //     persistentSubscriptionName: 'g1',
+        // },
         {
             // Catchup subscription
             type: EventStoreSubscriptionType.CatchUp,
             stream: '$ce-users',
         },
+        // {
+        //     // Catchup subscription
+        //     type: EventStoreSubscriptionType.CatchUp,
+        //     stream: '$ce-billing',
+        // },
     ],
     eventInstantiators: {
         ...UserEventInstantiators,
