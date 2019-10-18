@@ -10,6 +10,10 @@
         "url": "https://github.com/0xb4lamx/nestjs-boilerplate-microservice"
     },
     "bugs": "https://github.com/0xb4lamx/nestjs-boilerplate-microservice/issues",
+    "engines": {
+        "node": ">=8.0.0",
+        "npm": ">=6.0.0"
+    },
     "scripts": {
         "release": "npx -p @semantic-release/changelog -p @semantic-release/git@beta -p semantic-release@beta  semantic-release --no-ci",
         "commit": "npx git-cz",
