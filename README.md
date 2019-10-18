@@ -18,11 +18,12 @@ This section will cover the steps to follow for a containerized version of this 
 
 ### Prerequisites
 * A [Docker](https://docs.docker.com/) engine running on your local machine. Reffer to [official documentation](https://docs.docker.com/install/) for intructions.
+* Post-installation steps for Linux. Reffer to [official documentation](https://docs.docker.com/install/linux/linux-postinstall/) for intructions.
  
 ### Installation
 
 ```bash
-cd scripts && sudo sh build.sh
+cd scripts && sh build.sh
 ```
 *The build script Will:*
 * Create private network for containers.

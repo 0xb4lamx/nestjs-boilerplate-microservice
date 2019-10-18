@@ -14,13 +14,13 @@ fi
 
 # ---- cleaning up ----
 echo "[Removing Exited Containers]"
-docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs docker rm 
+docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs docker rm
 
 # ---- deploying network ----
 echo "[Deploying Containers Network]"
 echo "[Check]: Looking for already present Network"
 if [ "${NETWORK_PRESENT}" -eq "0" ]
-then 
+then
 echo "[Check]: Network not found"
 echo "[Check]: Creating ${NETWORK_NAME} network"
 docker network create --driver bridge ${NETWORK_NAME} &> /dev/null
@@ -33,17 +33,17 @@ fi
 # ---- setting mount directories ----
 echo "[Creating Data directories"
 echo "[Check]: Looking for already present Data directories"
-if [ ! -f  $HOME/mysql-data-dir ] 
+if [ ! -f  $HOME/mysql-data-dir ]
 then
   echo "[Check]: Mysql Data directories not found"
   echo "[Check]: Creating Mysql Data directory under $HOME/mysql-data-dir"
-  mkdir $HOME/mysql-data-dir 
+  mkdir $HOME/mysql-data-dir
   chown $USER:$USER $HOME/mysql-data-dir
   echo "[Check]: Mysql Data directory created"
 else
   echo "[Check]: Mysql Data directory found under $HOME/mysql-data-dir"
   echo "[Check]: Skipping creation"
-fi 
+fi
 if [ ! -f $HOME/eventstore-data-dir ]
 then
   echo "[Check]: Eventstore Data directories not found"
@@ -81,7 +81,7 @@ npm install ../
 
 # ---- building benjamin image ----
 echo "[Building microservice image]"
-docker build -t ${IMAGE_TAG}  -f dev/Dockerfile .. 
+docker build -t ${IMAGE_TAG}  -f dev/Dockerfile ..
 
 # ---- deploying benjamin container ----
 echo "[Deploying microservice Container]"
