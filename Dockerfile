@@ -1,11 +1,12 @@
 # ---- Base Node ----
 FROM node:carbon AS base
 WORKDIR /app
+RUN npm install -g npm@latest
 
 # ---- Dependencies ----
 FROM base AS dependencies
 COPY ./package*.json ./
-RUN npm install 
+RUN npm config set unsafe-perm true && npm install
 
 # ---- Build ----
 FROM dependencies AS build
