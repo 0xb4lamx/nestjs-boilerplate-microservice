@@ -13,6 +13,7 @@ import { eventStoreBusConfig } from './providers/event-bus.provider';
 
 @Module({
     imports: [
+        UsersModule,
         TypeOrmModule.forRootAsync({
             imports: [SharedModule],
             useFactory: (configService: ConfigService) => configService.typeOrmConfig,
@@ -30,7 +31,6 @@ import { eventStoreBusConfig } from './providers/event-bus.provider';
             },
             eventStoreBusConfig,
         ),
-        UsersModule,
     ],
   controllers: [AppController],
   providers: [AppService],
