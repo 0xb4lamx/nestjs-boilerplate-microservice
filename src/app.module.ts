@@ -10,10 +10,15 @@ import { SharedModule } from './shared.module';
 import { ConfigService } from './shared/services/config.service';
 import { EventStoreCqrsModule } from 'nestjs-eventstore';
 import { eventStoreBusConfig } from './providers/event-bus.provider';
+import { TerminusModule } from '@nestjs/terminus';
+import { TerminusOptionsService } from './providers/terminus-options.service';
 
 @Module({
     imports: [
         UsersModule,
+        TerminusModule.forRootAsync({
+            useClass: TerminusOptionsService,
+        }),
         TypeOrmModule.forRootAsync({
             imports: [SharedModule],
             useFactory: (configService: ConfigService) => configService.typeOrmConfig,
