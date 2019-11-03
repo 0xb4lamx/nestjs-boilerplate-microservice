@@ -5,7 +5,6 @@ import * as DailyRotateFile from 'winston-daily-rotate-file';
 
 import { IAwsConfigInterface } from '../../interfaces/aws-config.interface';
 import { SnakeNamingStrategy } from '../../snake-naming.strategy';
-import { LoggerService } from "./logger.service";
 
 export class ConfigService {
     constructor() {
@@ -18,7 +17,9 @@ export class ConfigService {
         for (const envName of Object.keys(process.env)) {
             process.env[envName] = process.env[envName].replace(/\\n/g, '\n');
         }
-        console.info(process.env);
+        if (this.nodeEnv === 'development') {
+            console.info(process.env);
+        }
     }
 
     public get(key: string): string {
@@ -38,14 +39,14 @@ export class ConfigService {
         let entities = [__dirname + '/../../modules/**/*.entity{.ts,.js}'];
         let migrations = [__dirname + '/../../migrations/*{.ts,.js}'];
 
-        if ((<any> module).hot) {
-            const entityContext = (<any> require).context('./../../modules', true, /\.entity\.ts$/);
+        if ((<any>module).hot) {
+            const entityContext = (<any>require).context('./../../modules', true, /\.entity\.ts$/);
             entities = entityContext.keys().map((id) => {
                 const entityModule = entityContext(id);
                 const [entity] = Object.values(entityModule);
                 return entity;
             });
-            const migrationContext = (<any> require).context('./../../migrations', false, /\.ts$/);
+            const migrationContext = (<any>require).context('./../../migrations', false, /\.ts$/);
             migrations = migrationContext.keys().map((id) => {
                 const migrationModule = migrationContext(id);
                 const [migration] = Object.values(migrationModule);
@@ -73,8 +74,8 @@ export class ConfigService {
             protocol: this.get('EVENT_STORE_PROTOCOL') || 'http',
             connectionSettings: {
                 defaultUserCredentials: {
-                    username: this.get('EVENT_STORE_CREDENTIALS_USERNAME') ||  'admin',
-                    password: this.get('EVENT_STORE_CREDENTIALS_PASSWORD') ||  'changeit',
+                    username: this.get('EVENT_STORE_CREDENTIALS_USERNAME') || 'admin',
+                    password: this.get('EVENT_STORE_CREDENTIALS_PASSWORD') || 'changeit',
                 },
                 verboseLogging: true,
                 failOnNoServerResponse: true,
@@ -82,11 +83,11 @@ export class ConfigService {
             },
             tcpEndpoint: {
                 host: this.get('EVENT_STORE_HOSTNAME') || 'localhost',
-                port: this.getNumber('EVENT_STORE_TCP_PORT') ||  1113,
+                port: this.getNumber('EVENT_STORE_TCP_PORT') || 1113,
             },
             httpEndpoint: {
                 host: this.get('EVENT_STORE_HOSTNAME') || 'localhost',
-                port: this.getNumber('EVENT_STORE_HTTP_PORT') ||  2113,
+                port: this.getNumber('EVENT_STORE_HTTP_PORT') || 2113,
             },
             poolOptions: {
                 min: this.getNumber('EVENT_STORE_POOLOPTIONS_MIN') || 1,
@@ -134,7 +135,7 @@ export class ConfigService {
                     level: 'debug',
                     handleExceptions: true,
                     format: winston.format.combine(winston.format.colorize(),
-                        winston.format.timestamp({format: 'DD-MM-YYYY HH:mm:ss'}),
+                        winston.format.timestamp({ format: 'DD-MM-YYYY HH:mm:ss' }),
                         winston.format.simple()),
                 }),
             ],
