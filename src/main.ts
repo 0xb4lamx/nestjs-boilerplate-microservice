@@ -36,10 +36,10 @@ async function bootstrap() {
     app.useGlobalPipes(new ValidationPipe({
         whitelist: true,
         transform: true,
-        dismissDefaultMessages: true,
-        validationError: {
-            target: false,
-        },
+        // dismissDefaultMessages: true,//TODO: disable in prod (if required)
+        // validationError: {
+        //     target: false,
+        // },
     }));
 
     const configService = app.select(SharedModule).get(ConfigService);
