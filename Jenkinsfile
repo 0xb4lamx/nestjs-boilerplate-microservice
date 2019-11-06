@@ -3,6 +3,8 @@
 def skippingText = ""
 def commitContainsSkip = 0
 def shouldBuild = false
+def imageTag = ""
+def name = "itninjahue/box"
 String[] releaseBranches = ["master","pr/rc","develop"]
 
 pipeline {
@@ -42,5 +44,23 @@ pipeline {
                 }
             }
         }
+        stage ('Releasing Docker Image'){
+            when{
+                expression{
+                    return env.shouldBuild != "false"
+                }
+            }
+            steps{
+                script{
+                    if(releaseBranches.contains(env.BRANCH_NAME)){
+                        withCredentials([string(credentialsId: 'GH_TOKEN', variable: 'GH_TOKEN')]){ 
+                            sh 'make makefile deliver_image_to_dockerhub'
+                        }   
+                    }
+                    
+                }
+            }
+        }
+        
     }
 }
