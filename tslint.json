@@ -55,7 +55,7 @@
         "no-duplicate-switch-case": true,
         "no-empty-interface": true,
         "no-eval": true,
-        "no-implicit-dependencies": true,
+        "no-implicit-dependencies": [true, "dev"],
         "no-invalid-this": true,
         "no-inferrable-types": [
             true,
