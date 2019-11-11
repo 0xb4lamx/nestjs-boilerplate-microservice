@@ -1,11 +1,9 @@
 'use strict';
 import { AggregateRoot } from '@nestjs/cqrs';
-import { PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-import { UtilsService } from '../providers/utils.service';
-import { AbstractDto } from './dto/AbstractDto';
+export abstract class AbstractEntity extends AggregateRoot {
 
-export abstract class AbstractEntity<T extends AbstractDto = AbstractDto> extends AggregateRoot {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -15,9 +13,5 @@ export abstract class AbstractEntity<T extends AbstractDto = AbstractDto> extend
     @UpdateDateColumn({ type: 'timestamp', name: 'updated_at' })
     updatedAt: Date;
 
-    abstract dtoClass: new (entity: AbstractEntity) => T;
-
-    toDto() {
-        return UtilsService.toDto(this.dtoClass, this);
-    }
+    abstract toDto();
 }

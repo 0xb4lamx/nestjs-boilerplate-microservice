@@ -6,9 +6,10 @@ import { UserCreatedEvent } from '../events/impl/user-created.event';
 import { UserDeletedEvent } from '../events/impl/user-deleted.event';
 import { UserUpdatedEvent } from '../events/impl/user-updated.event';
 import { UserWelcomedEvent } from '../events/impl/user-welcomed.event';
+import { plainToClass } from 'class-transformer';
 
 @Entity({ name: 'users' })
-export class User extends AbstractEntity<UserDto> {
+export class User extends AbstractEntity {
     @Column({ nullable: true })
     firstName: string;
 
@@ -18,7 +19,9 @@ export class User extends AbstractEntity<UserDto> {
     @Column({ unique: true, nullable: true })
     email: string;
 
-    dtoClass = UserDto;
+    toDto() {
+        return plainToClass(UserDto, this);
+    }
 
     create() {// TODO improve the naming of those functions ( something related to Events, maybe sth like onUserCreated() ... )
         this.apply(new UserCreatedEvent(this.toDto()));

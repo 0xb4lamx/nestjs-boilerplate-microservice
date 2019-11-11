@@ -1,34 +1,32 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsString, IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { Exclude, Expose } from 'class-transformer';
 
 import { AbstractDto } from '../../../common/dto/AbstractDto';
-import { User } from '../entities/user.entity';
 
+@Exclude()
 export class UserDto extends AbstractDto {
+
+    @Expose()
     @IsString()
     @ApiModelProperty()
     readonly id!: string;
 
+    @Expose()
     @IsString()
     @ApiModelProperty()
     readonly firstName!: string;
 
+    @Expose()
     @IsString()
     @ApiModelProperty()
     readonly lastName!: string;
 
+    @Expose()
     @IsString()
     @IsEmail()
     @IsNotEmpty()
     @ApiModelProperty()
     readonly email: string;
 
-    constructor(user?: User) {
-        super(user);
-        if (user) {
-            this.firstName = user.firstName;
-            this.lastName = user.lastName;
-            this.email = user.email;
-        }
-    }
 }

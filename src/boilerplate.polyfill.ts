@@ -8,7 +8,7 @@ import { AbstractDto } from './common/dto/AbstractDto';
 declare global {
 // tslint:disable-next-line:naming-convention no-unused
     interface Array<T> {
-        toDtos<B extends AbstractDto>(this: Array<AbstractEntity<B>>): B[];
+        toDtos<B extends AbstractDto>(this: AbstractEntity[]): B[];
     }
 }
 
