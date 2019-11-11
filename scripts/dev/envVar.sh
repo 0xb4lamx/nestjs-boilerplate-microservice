@@ -1,4 +1,4 @@
-#!bin/sh
+#!/bin/sh
 export NETWORK_NAME="alpine-net"
 # ---- MYSQL PARAMS ----
 export DB_CONTANER_NAME="sql-db"

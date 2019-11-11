@@ -1,4 +1,4 @@
-#!bin/sh
+#!/bin/sh
 NETWORK_PRESENT=`docker network ls | grep ${NETWORK_NAME} | wc -l`
 IMAGE_TAG="ms1-dev"
 

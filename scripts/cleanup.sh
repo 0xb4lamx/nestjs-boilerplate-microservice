@@ -1,4 +1,4 @@
-#!bin/sh
+#!/bin/sh
 
 # ---- Env Variables ----
 . dev/envVar.sh
@@ -7,13 +7,13 @@
 echo "[Stoping And Deleting Containers]"
 for i in ${DB_CONTANER_NAME} ${EVENTSTORE_CONTAINER_NAME} ${ADMINER_CONTAINER_NAME}
 do
-echo -n "[Delted]: " 
+echo -n "[Delted]: "
 docker container rm $i -f
-done 
+done
 
 # ---- removing dangling images ----
 echo "[Deleting Dangling Images] \n"
-echo -n "[Delted]: " 
+echo -n "[Delted]: "
 docker image prune -f
 
 # ---- removing network ----
@@ -23,7 +23,7 @@ docker network rm ${NETWORK_NAME}
 
 # ---- purge persistent data ----
 echo "\n[Deleting Data Directories]"
-while [ "$1" != "" ] 
+while [ "$1" != "" ]
 do
     case $1 in
         -h | --hard)
