@@ -37,9 +37,9 @@ async function bootstrap() {
         whitelist: true,
         transform: true,
         // dismissDefaultMessages: true,//TODO: disable in prod (if required)
-        // validationError: {
-        //     target: false,
-        // },
+        validationError: {
+            target: false,
+        },
     }));
 
     const configService = app.select(SharedModule).get(ConfigService);
