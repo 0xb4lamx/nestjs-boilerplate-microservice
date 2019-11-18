@@ -5,6 +5,7 @@ import * as DailyRotateFile from 'winston-daily-rotate-file';
 
 import { IAwsConfigInterface } from '../../interfaces/aws-config.interface';
 import { SnakeNamingStrategy } from '../../snake-naming.strategy';
+import { ISwaggerConfigInterface } from '../../interfaces/swagger-config.interface';
 
 export class ConfigService {
     constructor() {
@@ -32,6 +33,16 @@ export class ConfigService {
 
     get nodeEnv(): string {
         return this.get('NODE_ENV') || 'development';
+    }
+
+    get swaggerConfig(): ISwaggerConfigInterface {
+        return {
+            path: this.get('SWAGGER_PATH') || '/api/docs',
+            title: this.get('SWAGGER_TITLE') || 'B2H Microservice API',
+            description: this.get('SWAGGER_DESCRIPTION'),
+            version: this.get('SWAGGER_VERSION') || '0.0.1',
+            scheme: this.get('SWAGGER_SCHEME') === 'https' ? 'https' : 'http',
+        };
     }
 
     get typeOrmConfig(): TypeOrmModuleOptions {

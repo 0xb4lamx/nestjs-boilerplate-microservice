@@ -1,13 +1,16 @@
 import { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ISwaggerConfigInterface } from './interfaces/swagger-config.interface';
 
-export function setupSwagger(app: INestApplication) {
+export function setupSwagger(app: INestApplication, config: ISwaggerConfigInterface) {
     const options = new DocumentBuilder()
-        .setTitle('B2h API ')
-        .setVersion('0.0.1')
+        .setTitle(config.title)
+        .setDescription(config.description)
+        .setVersion(config.version)
+        .setSchemes(config.scheme)
         .addBearerAuth()
         .build();
 
     const document = SwaggerModule.createDocument(app, options);
-    SwaggerModule.setup('/api/docs', app, document);
+    SwaggerModule.setup(config.path, app, document);
 }

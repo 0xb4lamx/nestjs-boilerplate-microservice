@@ -55,7 +55,7 @@ async function bootstrap() {
     await app.startAllMicroservicesAsync();
 
     if (['development', 'staging'].includes(configService.nodeEnv)) {
-        setupSwagger(app);
+        setupSwagger(app, configService.swaggerConfig);
     }
 
     const port = configService.getNumber('PORT') || 3000;
