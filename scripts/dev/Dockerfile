@@ -6,5 +6,6 @@ RUN mkdir src test node_modules
 COPY ./src /app/src
 COPY ./test /app/test
 COPY ./node_modules /app/node_modules
+COPY ./.env ./
 RUN mkdir docs
 CMD ["npm","run","start:dev"]
