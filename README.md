@@ -139,6 +139,14 @@ $ npm run test:cov
 * [npm](https://www.npmjs.com) - Dependency Management
 * [Nest](https://github.com/nestjs/nest)
 
+## Future Goals
+
+Add tests;
+
+## Contributing
+
+You are welcome to contribute to this project, just open a PR.
+
 ## License
 
-  Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+ [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
