@@ -5,7 +5,7 @@
 
 # ---- removing containers ----
 echo "[Stoping And Deleting Containers]"
-for i in ${DB_CONTANER_NAME} ${EVENTSTORE_CONTAINER_NAME} ${ADMINER_CONTAINER_NAME}
+for i in ${DB_CONTANER_NAME} ${EVENTSTORE_CONTAINER_NAME} ${ADMINER_CONTAINER_NAME} ${CONTAINER_NAME}
 do
 echo -n "[Delted]: "
 docker container rm $i -f
@@ -29,7 +29,7 @@ do
         -h | --hard)
             rm -rf $HOME/eventstore-data-dir
             echo "[Delted]: eventstore data directory"
-            rm -rf $HOME/mysql-data-dir
+            rm -rf $(pwd)/../data
             echo "[Delted]: mysql data directory"
             exit
         ;;

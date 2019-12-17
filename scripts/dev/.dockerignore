@@ -8,4 +8,5 @@ jenkinsfile
 LICENSE
 script/
 test/
+data/
 makefile

@@ -394,3 +394,4 @@ docker-compose.yml
 *.env
 dist
 logs
+data/

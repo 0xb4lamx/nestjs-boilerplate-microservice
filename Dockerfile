@@ -20,7 +20,7 @@ COPY ./ormconfig.js ./
 RUN npm run build 
 
 # --- Release with Alpine ----
-FROM node:12.8-alpine AS release
+FROM node:lts-alpine3.9 AS release
 WORKDIR /app
 RUN mkdir node_modules dist
 COPY --from=dependencies app/node_modules node_modules/
