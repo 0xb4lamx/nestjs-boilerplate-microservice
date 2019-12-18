@@ -1,5 +1,4 @@
 #!/bin/sh
-NETWORK_PRESENT=`docker network ls | grep ${NETWORK_NAME} | wc -l`
 IMAGE_TAG="ms1-dev"
 
 # ---- Env Variables ----
@@ -14,11 +13,12 @@ fi
 
 # ---- cleaning up ----
 echo "[Removing Exited Containers]"
-docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs docker rm
+docker ps -a | grep Exit | cut -d ' ' -f 1 || xargs docker rm 
 
 # ---- deploying network ----
 echo "[Deploying Containers Network]"
 echo "[Check]: Looking for already present Network"
+NETWORK_PRESENT=`docker network ls | grep ${NETWORK_NAME} | wc -l`
 if [ "${NETWORK_PRESENT}" -eq "0" ]
 then
 echo "[Check]: Network not found"
@@ -31,25 +31,23 @@ echo "[Check]: Skipping creation"
 fi
 
 # ---- setting mount directories ----
-echo "[Creating Data directories"
+echo "[Creating Data directories]"
 echo "[Check]: Looking for already present Data directories"
-if [ ! -f  $HOME/mysql-data-dir ]
+if [ ! -d  $(pwd)/../data/mysql-data-dir ]
 then
   echo "[Check]: Mysql Data directories not found"
-  echo "[Check]: Creating Mysql Data directory under $HOME/mysql-data-dir"
-  mkdir $HOME/mysql-data-dir
-  chown $USER:$USER $HOME/mysql-data-dir
+  echo "[Check]: Creating Mysql Data directory under $(pwd)/../data/mysql-data-dir"
+  mkdir -p $(pwd)/../data/mysql-data-dir
   echo "[Check]: Mysql Data directory created"
 else
-  echo "[Check]: Mysql Data directory found under $HOME/mysql-data-dir"
+  echo "[Check]: Mysql Data directory found under $(pwd)/../mysql-data-dir"
   echo "[Check]: Skipping creation"
 fi
-if [ ! -f $HOME/eventstore-data-dir ]
+if [ ! -d $HOME/eventstore-data-dir ]
 then
   echo "[Check]: Eventstore Data directories not found"
   echo "[Check]: Creating Evenstore Data directory under $HOME/eventstore-data-dir"
   mkdir $HOME/eventstore-data-dir
-  chown $USER:$USER $HOME/eventstore-data-dir
   echo "[Check]: Eventstore Data directory created"
 else
   echo "[Check]: Eventstore Data directory found under $HOME/eventstore-data-dir"
@@ -57,27 +55,65 @@ else
 fi
 
 # ---- deploying mysql database ----
+echo "[Check]: Looking for already running mysql ${DB_CONTANER_NAME} container"
+if [ ! $(docker ps --format '{{.Names}}' | grep -w ${DB_CONTANER_NAME} &> /dev/null) ]
+then
+echo "[Check]: mysql ${DB_CONTANER_NAME} container not found"
 echo "[Deploying Mysql Container]"
-docker run  --name ${DB_CONTANER_NAME} --mount type=bind,source=$HOME/mysql-data-dir,target=/var/lib/mysql --network ${NETWORK_NAME} -e MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD} -e MYSQL_DATABASE=${DB_ROOT_DATABASE} \
+docker run  --name ${DB_CONTANER_NAME} --mount type=bind,source=$(pwd)/../data/mysql-data-dir,target=/var/lib/mysql --network ${NETWORK_NAME} -e MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD} -e MYSQL_DATABASE=${DB_ROOT_DATABASE} \
 -d mysql:5.7 --character-set-server=utf8mb4 \
 --collation-server=utf8mb4_unicode_ci &> /dev/null
-echo "[Deployed Mysql Container]"
+echo "[Deployed Mysql Container]" 
+else
+echo "[Check]: mysql ${DB_CONTANER_NAME} container found"
+echo "[Check]: Skipping mysql ${DB_CONTANER_NAME} container creation"
+fi
 
 # ---- deploying event store ----
-echo "[Deploying Evenstore Container]"
+echo "[Check]: Looking for already running Eventstore ${EVENTSTORE_CONTAINER_NAME} container"
+if [ ! $(docker ps --format '{{.Names}}' | grep -w ${EVENTSTORE_CONTAINER_NAME} &> /dev/null) ]
+then
+echo "[Check]: Eventstore ${EVENTSTORE_CONTAINER_NAME} container not found"
+echo "[Deploying Eventstore Container]"
 docker run -d --name ${EVENTSTORE_CONTAINER_NAME} --mount type=bind,source=$HOME/eventstore-data-dir,target=/var/lib/eventstore --network ${NETWORK_NAME} -p ${EVENTSTORE_HTTP_PORT}:${EVENTSTORE_HTTP_PORT} -p ${EVENTSTORE_TCP_PORT}:${EVENTSTORE_TCP_PORT} \
 eventstore/eventstore &> /dev/null
 echo "[Deployed Evenstore Container]"
+else
+echo "[Check]: Evenstore ${EVENTSTORE_CONTAINER_NAME} container found"
+echo "[Check]: Skipping Evenstore ${EVENTSTORE_CONTAINER_NAME} container creation"
+fi
 
 # ---- deploying adminer ----
+echo "[Check]: Looking for already running Adminer ${ADMINER_CONTAINER_NAME} container"
+
+if [ ! $(docker ps --format '{{.Names}}' | grep -w ${ADMINER_CONTAINER_NAME} &> /dev/null) ]
+then
+echo "[Check]: Adminer ${ADMINER_CONTAINER_NAME} container not found"
 echo "[Deploying Adminer Container]"
 docker run --name ${ADMINER_CONTAINER_NAME} -d --network ${NETWORK_NAME} -p ${ADMINER_PORT}:${ADMINER_PORT} amd64/adminer:4.7.3-standalone &> /dev/null
 echo "[Deployed Adminer Container]"
+else
+echo "[Check]: Evenstore ${ADMINER_CONTAINER_NAME} container found"
+echo "[Check]: Skipping Evenstore ${ADMINER_CONTAINER_NAME} container creation"
+fi
 
 # ---- installing dependencies ----
 echo "[Deploying microservice Container]"
 echo "[Installing node dependencies]"
 npm install ../
+
+# ---- checking env file ----
+echo "[Check]: Looking for already present .env file"
+if [ ! -f $(pwd)/../.env ]
+then
+echo "[Check]: .env file not found"
+echo "[Check]: Creating .env file"
+cp $(pwd)/../.env.example $(pwd)/../.env
+echo "[check]: .env file created"
+else
+echo "[Check]: .env file found"
+echo "[Check]: skipping creation"
+fi
 
 # ---- building benjamin image ----
 echo "[Building microservice image]"
