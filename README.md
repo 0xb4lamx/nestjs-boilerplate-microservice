@@ -23,7 +23,7 @@ This section will cover the steps to follow for a containerized version of this 
 ### Installation
 
 ```bash
-cd scripts/ && sh build.sh && cd -
+(cd scripts/ && sh build.sh)
 ```
 *The build script Will:*
 * Create private network for containers.
@@ -62,7 +62,7 @@ cd scripts/ && sh build.sh && cd -
 ### Clean up
 **Soft clean up**
 ```bash
-cd scripts/ && sudo sh cleanup.sh && cd -
+(cd scripts/ && sudo sh cleanup.sh)
 ```
 
 *The cleanup script soft Will:*
@@ -76,9 +76,9 @@ cd scripts/ && sudo sh cleanup.sh && cd -
 ```bash
 #both commands are equivalent
 #option1 
-cd scripts/ && sudo sh cleanup.sh -h && cd -
+(cd scripts/ && sudo sh cleanup.sh -h)
 #option2
-cd scripts/ && sudo sh cleanup.sh --hard && cd -
+(cd scripts/ && sudo sh cleanup.sh --hard)
 ```
 *The cleanup script hard Will:*
 * Remove private network.
