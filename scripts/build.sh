@@ -13,7 +13,7 @@ fi
 
 # ---- cleaning up ----
 echo "[Removing Exited Containers]"
-docker ps -a | grep Exit | cut -d ' ' -f 1 || xargs docker rm 
+docker ps -a | grep Exit | cut -d ' ' -f 1 || xargs docker rm
 
 # ---- deploying network ----
 echo "[Deploying Containers Network]"
@@ -63,7 +63,7 @@ echo "[Deploying Mysql Container]"
 docker run  --name ${DB_CONTANER_NAME} --mount type=bind,source=$(pwd)/../data/mysql-data-dir,target=/var/lib/mysql --network ${NETWORK_NAME} -e MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD} -e MYSQL_DATABASE=${DB_ROOT_DATABASE} \
 -d mysql:5.7 --character-set-server=utf8mb4 \
 --collation-server=utf8mb4_unicode_ci &> /dev/null
-echo "[Deployed Mysql Container]" 
+echo "[Deployed Mysql Container]"
 else
 echo "[Check]: mysql ${DB_CONTANER_NAME} container found"
 echo "[Check]: Skipping mysql ${DB_CONTANER_NAME} container creation"
@@ -117,7 +117,18 @@ fi
 
 # ---- building benjamin image ----
 echo "[Building microservice image]"
-docker build -t ${IMAGE_TAG}  -f dev/Dockerfile ..
+DOCKER_VER=$(docker version -f '{{.Server.Version}}')
+DOCKER_VER_MAJOR=$(echo "$DOCKER_VER" | cut -d'.' -f 1)
+DOCKER_VER_MINOR=$(echo "$DOCKER_VER" | cut -d'.' -f 2)
+if [ "$DOCKER_VER_MAJOR" -gt 18 ] || \
+   { [ "$DOCKER_VER_MAJOR" -ge 18 ] && [ "$DOCKER_VER_MINOR" -ge 9 ]; }
+then
+    echo "Docker version >= 18.09, BUILDKIT supported"
+    DOCKER_BUILDKIT=1 docker build -t ${IMAGE_TAG}  -f dev/Dockerfile ..
+else
+    echo "Docker version < 18.09, BUILDKIT NOT supported"
+    docker build -t ${IMAGE_TAG}  -f dev/Dockerfile ..
+fi
 
 # ---- deploying benjamin container ----
 echo "[Deploying microservice Container]"
