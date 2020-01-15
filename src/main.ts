@@ -8,7 +8,7 @@ import * as morgan from 'morgan'; // HTTP request logger
 import { initializeTransactionalContext, patchTypeORMRepositoryWithBaseRepository } from 'typeorm-transactional-cls-hooked';
 
 import { AppModule } from './app.module';
-import { setupSwagger } from './b2h-swagger';
+import { setupSwagger } from './shared/swagger/setup';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { SharedModule } from './shared.module';
 import { ConfigService } from './shared/services/config.service';
@@ -43,16 +43,6 @@ async function bootstrap() {
     }));
 
     const configService = app.select(SharedModule).get(ConfigService);
-    app.connectMicroservice({
-        transport: Transport.TCP,
-        options: {
-            port: configService.getNumber('TRANSPORT_PORT') || 4000,
-            retryAttempts: 5,
-            retryDelay: 3000,
-        },
-    });
-
-    await app.startAllMicroservicesAsync();
 
     if (['development', 'staging'].includes(configService.nodeEnv)) {
         setupSwagger(app, configService.swaggerConfig);
@@ -64,5 +54,9 @@ async function bootstrap() {
 
     loggerService.warn(`server running on port ${host}:${port}`);
 
+    /*
+     if GRPC is needed, import src/shared/grpc/setup.ts
+     await setupGrpc(app, 'role', 'role.proto', configService.services?.auth?.grpcPort || 7900);
+     */
 }
 bootstrap();
