@@ -1,6 +1,5 @@
 import { ValidationPipe, ClassSerializerInterceptor } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
-import { Transport } from '@nestjs/microservices';
 import { NestExpressApplication, ExpressAdapter } from '@nestjs/platform-express';
 import * as RateLimit from 'express-rate-limit';
 import * as helmet from 'helmet'; // security feature
@@ -8,11 +7,11 @@ import * as morgan from 'morgan'; // HTTP request logger
 import { initializeTransactionalContext, patchTypeORMRepositoryWithBaseRepository } from 'typeorm-transactional-cls-hooked';
 
 import { AppModule } from './app.module';
-import { setupSwagger } from './shared/swagger/setup';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { SharedModule } from './shared.module';
 import { ConfigService } from './shared/services/config.service';
 import { LoggerService } from './shared/services/logger.service';
+import { setupSwagger } from './shared/swagger/setup';
 
 async function bootstrap() {
     initializeTransactionalContext();

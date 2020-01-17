@@ -1,5 +1,5 @@
-import { Transport } from '@nestjs/microservices';
 import { INestApplication } from '@nestjs/common';
+import { Transport } from '@nestjs/microservices';
 import { join } from 'path';
 
 export async function setupGrpc(

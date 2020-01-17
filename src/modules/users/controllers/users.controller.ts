@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Param, Body, Delete, Put, HttpStatus } from '@nestjs/common';
 import { ApiUseTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
 
-import { UserDto } from '../dtos/user.dto';
 import { UserIdRequestParamsDto } from '../dtos/user-id-request-params.dto';
 import { UserRegisterDto } from '../dtos/user-register.dto';
+import { UserDto } from '../dtos/user.dto';
 import { UsersService } from '../services/users.service';
 
 @Controller('users')

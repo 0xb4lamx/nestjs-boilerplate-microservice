@@ -1,6 +1,6 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { Exclude, Expose } from 'class-transformer';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 import { AbstractDto } from '../../../common/dto/abstract.dto';
 

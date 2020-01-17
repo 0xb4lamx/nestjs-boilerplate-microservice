@@ -4,8 +4,8 @@ import * as winston from 'winston';
 import * as DailyRotateFile from 'winston-daily-rotate-file';
 
 import { IAwsConfigInterface } from '../../interfaces/aws-config.interface';
-import { SnakeNamingStrategy } from '../typeorm/strategies/snake-naming.strategy';
 import { ISwaggerConfigInterface } from '../../interfaces/swagger-config.interface';
+import { SnakeNamingStrategy } from '../typeorm/strategies/snake-naming.strategy';
 
 export class ConfigService {
     constructor() {

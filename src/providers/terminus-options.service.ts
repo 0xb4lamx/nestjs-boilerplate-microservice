@@ -1,6 +1,7 @@
-import { MicroserviceHealthIndicator, TypeOrmHealthIndicator, TerminusEndpoint, TerminusModuleOptions, TerminusOptionsFactory } from '@nestjs/terminus';
 import { Injectable } from '@nestjs/common';
 import { Transport } from '@nestjs/microservices';
+import { MicroserviceHealthIndicator, TypeOrmHealthIndicator, TerminusEndpoint, TerminusModuleOptions, TerminusOptionsFactory } from '@nestjs/terminus';
+
 import { ConfigService } from '../shared/services/config.service';
 
 @Injectable()
