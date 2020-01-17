@@ -1,7 +1,7 @@
 import { Repository, EntityRepository } from 'typeorm';
 import * as uuidv4 from 'uuid/v4';
 
-import { UserRegisterDto } from '../dtos/userRegister.dto';
+import { UserRegisterDto } from '../dtos/user-register.dto';
 import { User } from '../entities/user.entity';
 
 @EntityRepository(User)
