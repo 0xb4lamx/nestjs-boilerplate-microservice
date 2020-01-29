@@ -50,14 +50,14 @@ export class ConfigService {
         let entities = [__dirname + '/../../modules/**/*.entity{.ts,.js}'];
         let migrations = [__dirname + '/../../migrations/*{.ts,.js}'];
 
-        if ((<any>module).hot) {
-            const entityContext = (<any>require).context('./../../modules', true, /\.entity\.ts$/);
+        if ((module as any).hot) {
+            const entityContext = (require as any).context('./../../modules', true, /\.entity\.ts$/);
             entities = entityContext.keys().map((id) => {
                 const entityModule = entityContext(id);
                 const [entity] = Object.values(entityModule);
                 return entity;
             });
-            const migrationContext = (<any>require).context('./../../migrations', false, /\.ts$/);
+            const migrationContext = (require as any).context('./../../migrations', false, /\.ts$/);
             migrations = migrationContext.keys().map((id) => {
                 const migrationModule = migrationContext(id);
                 const [migration] = Object.values(migrationModule);

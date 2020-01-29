@@ -12,14 +12,10 @@
         "sourceMap": true,
         "allowJs": true,
         "outDir": "./dist",
-        "baseUrl": "./src",
+        "baseUrl": "./",
         "incremental": true
     },
-    "include": [
-        "src/**/*"
-    ],
     "exclude": [
-        "node_modules", "dist",
-        "**/*.spec.ts"
+        "node_modules", "dist"
     ]
 }
