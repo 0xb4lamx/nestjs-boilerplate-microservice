@@ -31,7 +31,7 @@
         "start:dev": "tsc-watch -p tsconfig.build.json --onSuccess \"node dist/main.js\"",
         "start:debug": "tsc-watch -p tsconfig.build.json --onSuccess \"node --inspect-brk dist/main.js\"",
         "start:prod": "node dist/main.js",
-        "lint": "tslint -p tsconfig.json -c tslint.json",
+        "lint": "eslint '{src,apps,libs,test}/**/*.ts' --fix",
         "test": "jest",
         "test:watch": "jest --watch",
         "test:cov": "jest --coverage",
@@ -89,11 +89,12 @@
         "@types/node": "^12.0.7",
         "@types/supertest": "^2.0.7",
         "@types/uuid": "^3.4.4",
-        "@typescript-eslint/eslint-plugin-tslint": "^2.6.1",
-        "@typescript-eslint/parser": "^2.6.1",
+        "@typescript-eslint/eslint-plugin": "^2.12.0",
+        "@typescript-eslint/parser": "^2.12.0",
+        "eslint": "^6.7.2",
+        "eslint-config-prettier": "^6.7.0",
+        "eslint-plugin-import": "^2.19.1",
         "cz-conventional-changelog": "^3.0.2",
-        "eslint": "^6.0.1",
-        "eslint-plugin-import-helpers": "^1.0.2",
         "graphql-tag-pluck": "^0.8.7",
         "husky": "^4.0.0-beta.5",
         "jest": "^24.8.0",
@@ -105,11 +106,6 @@
         "ts-node": "^8.1.0",
         "tsc-watch": "^2.2.1",
         "tsconfig-paths": "^3.8.0",
-        "tslint": "^5.17.0",
-        "tslint-config-prettier": "~1.18.0",
-        "tslint-consistent-codestyle": "^1.15.1",
-        "tslint-eslint-rules": "^5.4.0",
-        "tslint-plugin-prettier": "^2.0.1",
         "typescript": "^3.4.3"
     },
     "jest": {
@@ -131,7 +127,7 @@
     },
     "lint-staged": {
         "*.@(ts)": [
-            "tslint --fix -p .",
+            "eslint --fix",
             "git add"
         ]
     },
@@ -143,6 +139,7 @@
     },
     "husky": {
         "hooks": {
+            "pre-commit": "npm run build && lint-staged",
             "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
         }
     },

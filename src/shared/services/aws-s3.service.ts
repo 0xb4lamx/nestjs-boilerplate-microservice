@@ -32,7 +32,7 @@ export class AwsS3Service {
     }
 
     async uploadImage(file: IFile) {
-        const fileName = this.generatorService.fileName(<string>mime.extension(file.mimetype));
+        const fileName = this.generatorService.fileName(mime.extension(file.mimetype) as string);
         const key = 'images/' + fileName;
         await this._s3.putObject({
             Bucket: this.configService.awsS3Config.bucketName,
