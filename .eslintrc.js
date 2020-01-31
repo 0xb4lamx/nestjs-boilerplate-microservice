@@ -30,7 +30,8 @@ module.exports = {
             {
                 "newlines-between": "always",
                 "groups": [
-                    "external",
+                    "builtin",
+                    ["internal", "external"],
                     ["sibling", "parent", "index"]
                 ],
                 "pathGroups": [
