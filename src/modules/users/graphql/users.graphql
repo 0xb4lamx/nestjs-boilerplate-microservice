@@ -3,8 +3,7 @@ type Query {
     users: [User]
 }
 
-type User
-(fields: "id") {
+type User @key(fields: "id") {
     id: String!
     firstName: String
     lastName: String
