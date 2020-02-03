@@ -1,7 +1,7 @@
+import { join } from 'path';
+
 import { INestApplication } from '@nestjs/common';
 import { Transport } from '@nestjs/microservices';
-
-import { join } from 'path';
 
 export async function setupGrpc(
     app: INestApplication, packageName, fileName: string, port: number, host = '0.0.0.0',
