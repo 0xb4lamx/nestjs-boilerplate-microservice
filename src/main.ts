@@ -1,7 +1,7 @@
 import { ValidationPipe, ClassSerializerInterceptor } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { NestExpressApplication, ExpressAdapter } from '@nestjs/platform-express';
-import * as RateLimit from 'express-rate-limit';
+import * as rateLimit from 'express-rate-limit';
 import * as helmet from 'helmet'; // security feature
 import * as morgan from 'morgan'; // HTTP request logger
 import { initializeTransactionalContext, patchTypeORMRepositoryWithBaseRepository } from 'typeorm-transactional-cls-hooked';
@@ -23,18 +23,19 @@ async function bootstrap() {
     app.use(morgan('combined', {stream: {write: (message) => {loggerService.log(message); }}}));
 
     app.use(helmet());
-    app.use(new RateLimit({
+    app.use(rateLimit({
         windowMs: 15 * 60 * 1000, // 15 minutes
         max: 100, // limit each IP to 100 requests per windowMs
     }));
 
     const reflector = app.get(Reflector);
 
-    app.useGlobalFilters(new HttpExceptionFilter(reflector, loggerService));
+    app.useGlobalFilters(new HttpExceptionFilter(loggerService));
     app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
     app.useGlobalPipes(new ValidationPipe({
         whitelist: true,
         transform: true,
+        // exceptionFactory: errors => new BadRequestException(errors),
         // dismissDefaultMessages: true,//TODO: disable in prod (if required)
         validationError: {
             target: false,
