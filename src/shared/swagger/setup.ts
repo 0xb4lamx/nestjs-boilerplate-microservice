@@ -8,7 +8,6 @@ export function setupSwagger(app: INestApplication, config: ISwaggerConfigInterf
         .setTitle(config.title)
         .setDescription(config.description)
         .setVersion(config.version)
-        .setSchemes(config.scheme)
         .addBearerAuth()
         .build();
 
