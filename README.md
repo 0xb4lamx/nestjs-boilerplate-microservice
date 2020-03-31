@@ -1,7 +1,7 @@
 
 ## Description
 
-Microservice boilerplate based on [Nest](https://github.com/nestjs/nest), a framework TypeScript.
+Microservice boilerplate based on [NestJS v7](https://github.com/nestjs/nest), built with TypeScript.
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 

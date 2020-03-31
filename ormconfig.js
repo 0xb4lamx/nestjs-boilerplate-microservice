@@ -1,4 +1,3 @@
-/* tslint:disable:quotemark object-literal-sort-keys */
 import * as dotenv from 'dotenv';
 
 import { SnakeNamingStrategy } from './src/shared/typeorm/strategies/snake-naming.strategy';
