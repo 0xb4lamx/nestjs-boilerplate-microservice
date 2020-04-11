@@ -70,7 +70,6 @@
         "rxjs": "^6.5.2",
         "swagger-ui-express": "^4.1.4",
         "typeorm": "^0.2.24",
-        "typeorm-transactional-cls-hooked": "^0.1.8",
         "uuid": "^7.0.0",
         "winston": "^3.2.1",
         "winston-daily-rotate-file": "^3.10.0",

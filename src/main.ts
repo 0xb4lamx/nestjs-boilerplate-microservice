@@ -4,7 +4,6 @@ import { NestExpressApplication, ExpressAdapter } from '@nestjs/platform-express
 import * as rateLimit from 'express-rate-limit';
 import * as helmet from 'helmet'; // security feature
 import * as morgan from 'morgan'; // HTTP request logger
-import { initializeTransactionalContext, patchTypeORMRepositoryWithBaseRepository } from 'typeorm-transactional-cls-hooked';
 
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
@@ -14,8 +13,7 @@ import { LoggerService } from './shared/services/logger.service';
 import { setupSwagger } from './shared/swagger/setup';
 
 async function bootstrap() {
-    initializeTransactionalContext();
-    patchTypeORMRepositoryWithBaseRepository();
+
     const app = await NestFactory.create<NestExpressApplication>(AppModule, new ExpressAdapter(), { cors: true});
 
     const loggerService = app.select(SharedModule).get(LoggerService);
