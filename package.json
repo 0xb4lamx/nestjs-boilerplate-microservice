@@ -48,7 +48,7 @@
         "@nestjs/microservices": "^7.0.0",
         "@nestjs/platform-express": "^7.0.0",
         "@nestjs/swagger": "^4.5.1",
-        "@nestjs/terminus": "7.0.0-pre.4",
+        "@nestjs/terminus": "^7.0.0",
         "@nestjs/typeorm": "^7.0.0",
         "apollo-server-express": "^2.9.5",
         "aws-sdk": "^2.517.0",
