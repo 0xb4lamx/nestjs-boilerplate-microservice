@@ -17,7 +17,7 @@
         "npm": ">=6.0.0"
     },
     "scripts": {
-        "release": "npx -p @semantic-release/changelog -p @semantic-release/git@beta -p @semantic-release/github@beta -p semantic-release@16.0.0-beta.38 semantic-release --no-ci --debug",
+        "release": "npx -p @semantic-release/changelog@^5.0.0 -p @semantic-release/git@^9.0.0  -p semantic-release@^17.0.0 semantic-release --no-ci --debug",
         "commit": "npx git-cz",
         "build": "rimraf dist && tsc -p tsconfig.build.json",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
