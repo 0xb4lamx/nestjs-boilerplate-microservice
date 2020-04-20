@@ -64,7 +64,7 @@
         "mime-types": "~2.1.24",
         "morgan": "^1.10",
         "mysql": "^2.18.1",
-        "nestjs-eventstore": "git+https://github.com/0xb4lamx/nestjs-eventstore#upgrade/nestjs-v7",
+        "nestjs-eventstore": "git+https://github.com/0xb4lamx/nestjs-eventstore",
         "pretty-error": "^2.1.1",
         "rimraf": "^3.0",
         "rxjs": "^6.5.2",
