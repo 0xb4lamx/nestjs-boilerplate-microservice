@@ -1,30 +1,38 @@
 # ---- Base Node ----
-FROM node:carbon AS base
+FROM node:lts-alpine3.9 AS base
+RUN apk add --no-cache git
 WORKDIR /app
-RUN npm install -g npm@latest
+RUN mkdir src templates
+RUN chown -R node:node /app
+USER node
 
 # ---- Dependencies ----
 FROM base AS dependencies
 COPY ./package*.json ./
-RUN npm config set unsafe-perm true && npm install
+RUN npm install -d
 
 # ---- Build ----
 FROM dependencies AS build
 WORKDIR /app
-RUN mkdir src docs test
+COPY ./templates /app/templates
 COPY ./src /app/src
-COPY ./docs /app/docs
-COPY ./test /app/test
 COPY ./ts*.json ./
-COPY ./ormconfig.js ./
-RUN npm run build 
+COPY ormconfig.js ./
+RUN npm run build
+
+# ---- Polishing ----
+FROM base AS polishing
+COPY ./package*.json ./
+RUN npm install --production -d
 
 # --- Release with Alpine ----
 FROM node:lts-alpine3.9 AS release
 WORKDIR /app
-RUN mkdir node_modules dist
-COPY --from=dependencies app/node_modules node_modules/
-COPY --from=dependencies app/package*.json ./
+RUN mkdir dist templates node_modules
+RUN chown -R node:node /app
+USER node
+COPY --from=polishing app/node_modules node_modules/
 COPY --from=build app/dist dist/
+COPY --from=build app/templates templates/
 COPY --from=build app/ormconfig.js ./
-CMD ["npm","run","start:prod"]
+CMD ["node","dist/src/main.js"]
