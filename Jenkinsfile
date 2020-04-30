@@ -5,7 +5,7 @@ def skippingText = ""
 def commitContainsSkip = 0
 def shouldBuild = false
 def tag = ""
-String[] releaseBranches = ["master","pr/rc","develop"]
+String[] releaseBranches = ["master","pre/rc","develop"]
 
 // ---- infrastructure repository params ----
 def infrastructure_environment_folder = ""
@@ -61,7 +61,7 @@ pipeline {
                 script{
                     if(releaseBranches.contains(env.BRANCH_NAME)){
                         slackSend color: "#2222FF", message:"${skippingText}\n *commmit info:* \n ${lastCommitInfo}"
-                        slackSend color: "#2222FF", message:"Releasing on GIT"    
+                        slackSend color: "#2222FF", message:"Releasing on GIT"
                     }
                 }
             }
@@ -72,18 +72,18 @@ pipeline {
             }
             environment {
                  HOME = '.'
-            }           
+            }
             when{
                 expression{
                     return env.shouldBuild != "false"
                 }
-            }   
+            }
             steps{
                 script{
                     if(releaseBranches.contains(env.BRANCH_NAME)){
-                        withCredentials([string(credentialsId: 'GH_TOKEN', variable: 'GH_TOKEN')]){ 
+                        withCredentials([string(credentialsId: 'GH_TOKEN', variable: 'GH_TOKEN')]){
                             sh 'npm run release'
-                        }   
+                        }
                     }
                 }
             }
@@ -98,13 +98,13 @@ pipeline {
                 script{
                     if(releaseBranches.contains(env.BRANCH_NAME)){
                         slackSend color: "#2222FF", message: "Releasing Image to DockerHub :whale:"
-                        withCredentials([string(credentialsId: 'GH_TOKEN', variable: 'GH_TOKEN')]){ 
+                        withCredentials([string(credentialsId: 'GH_TOKEN', variable: 'GH_TOKEN')]){
                             env.tag = sh (returnStdout: true, script: "make retrivetag organization=${microservice_organization} repository=${microservice_repository}")
                             sh 'make makefile deliver_image_to_dockerhub NAME="${dockerhub_organization}/${dockerhub_repository}" organization=${microservice_organization} repository=${microservice_repository}'
                         }
-                        slackSend color: "good", message: "Image released \n *Tag :* ${env.tag}"   
+                        slackSend color: "good", message: "Image released \n *Tag :* ${env.tag}"
                     }
-                    
+
                 }
             }
         }
@@ -122,25 +122,24 @@ pipeline {
                             case "develop":
                                 env.infrastructure_environment_folder = "dev"
                             break
-                            case "pr/rc":
+                            case "pre/rc":
                                 env.infrastructure_environment_folder = "preprod"
                             break
                             case "master":
                                 env.infrastructure_environment_folder = "prod"
                             break
                         }
-                        withCredentials([usernamePassword(credentialsId: 'GithubCreds', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]){
+                        withCredentials([usernamePassword(credentialsId: 'sysadminBox2home', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]){
                             sh 'git clone http://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${infrastructure_organization}/${infrastructure_repository}.git'
-                            sh 'cd ${infrastructure_repository}; sed -i "s/v[0-9]*\\.[0-9]*\\.[0-9]*\\-.*/${tag}/g" ${infrastructure_environment_folder}/values.yaml'
+                            sh 'cd ${infrastructure_repository}; sed -i "s/v[0-9]*\\.[0-9]*\\.[0-9]*.*/${tag}/g" ${infrastructure_environment_folder}/values.yaml'
                             sh 'cd ${infrastructure_repository}; git add ${infrastructure_environment_folder}/values.yaml'
-                            sh 'cd ${infrastructure_repository}; git commit -m "update tag"'
-                            sh 'cd ${infrastructure_repository}; git push http://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${infrastructure_organization}/${infrastructure_repository}.git'
+                            sh 'cd ${infrastructure_repository}; git commit -m "update tag" && git push http://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${infrastructure_organization}/${infrastructure_repository}.git || :'
                             sh 'rm -rf ${infrastructure_repository}'
                         }
                         slackSend color: "good", message: "Tag updated succesfully trigering infratsructure pipeline"
                     }
                 }
-            }            
+            }
         }
     }
     post {
@@ -153,7 +152,7 @@ pipeline {
                 if(releaseBranches.contains(env.BRANCH_NAME)){
                     slackSend color: "good", message: "*${env.JOB_NAME}* Build #${env.BUILD_NUMBER} job is completed successfully \n <${env.BUILD_URL}|Job Link>"
                 }
-            } 
+            }
         }
         unstable{
             script{
