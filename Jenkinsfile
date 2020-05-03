@@ -129,7 +129,7 @@ pipeline {
                                 env.infrastructure_environment_folder = "prod"
                             break
                         }
-                        withCredentials([usernamePassword(credentialsId: 'sysadminBox2home', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]){
+                        withCredentials([usernamePassword(credentialsId: 'sysadmin', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]){
                             sh 'git clone http://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${infrastructure_organization}/${infrastructure_repository}.git'
                             sh 'cd ${infrastructure_repository}; sed -i "s/v[0-9]*\\.[0-9]*\\.[0-9]*.*/${tag}/g" ${infrastructure_environment_folder}/values.yaml'
                             sh 'cd ${infrastructure_repository}; git add ${infrastructure_environment_folder}/values.yaml'
