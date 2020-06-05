@@ -23,7 +23,8 @@ export class User extends AbstractEntity {
         return plainToClass(UserDto, this);
     }
 
-    create() {// TODO improve the naming of those functions ( something related to Events, maybe sth like onUserCreated() ... )
+    create() {
+        // TODO improve the naming of those functions ( something related to Events, maybe sth like onUserCreated() ... )
         this.apply(new UserCreatedEvent(this.toDto()));
     }
 
@@ -38,5 +39,4 @@ export class User extends AbstractEntity {
     delete() {
         this.apply(new UserDeletedEvent(this.toDto()));
     }
-
 }

@@ -6,14 +6,18 @@ import { GeneratorService } from './shared/services/generator.service';
 import { LoggerService } from './shared/services/logger.service';
 import { ValidatorService } from './shared/services/validator.service';
 
-const providers = [ConfigService, LoggerService, ValidatorService, AwsS3Service, GeneratorService];
+const providers = [
+    ConfigService,
+    LoggerService,
+    ValidatorService,
+    AwsS3Service,
+    GeneratorService,
+];
 
 @Global()
 @Module({
     providers,
-    imports: [
-        HttpModule,
-        ],
+    imports: [HttpModule],
     exports: [...providers, HttpModule],
 })
 export class SharedModule {}

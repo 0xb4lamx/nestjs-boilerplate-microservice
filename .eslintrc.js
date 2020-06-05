@@ -2,50 +2,48 @@ module.exports = {
     parser: '@typescript-eslint/parser',
     parserOptions: {
         project: 'tsconfig.json',
-        sourceType: 'module'
+        sourceType: 'module',
     },
-    plugins: [
-        '@typescript-eslint/eslint-plugin'
-    ],
+    plugins: ['@typescript-eslint/eslint-plugin'],
     extends: [
         'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:import/errors',
         'plugin:import/warnings',
         'plugin:import/typescript',
-        'prettier',
-        'prettier/@typescript-eslint'
+        'prettier/@typescript-eslint',
+        'plugin:prettier/recommended',
     ],
     root: true,
     env: {
         node: true,
-        jest: true
+        jest: true,
     },
     rules: {
         '@typescript-eslint/interface-name-prefix': 'off',
         '@typescript-eslint/explicit-function-return-type': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
-        "import/order": [
-            "error",
+        'import/order': [
+            'error',
             {
-                "newlines-between": "always",
-                "groups": [
-                    "builtin",
-                    ["internal", "external"],
-                    ["sibling", "parent", "index"]
+                'newlines-between': 'always',
+                groups: [
+                    'builtin',
+                    ['internal', 'external'],
+                    ['sibling', 'parent', 'index'],
                 ],
-                "pathGroups": [
+                pathGroups: [
                     {
-                        "pattern": "@src/**",
-                        "group": "external",
-                        "position": "after"
-                    }
+                        pattern: '@src/**',
+                        group: 'external',
+                        position: 'after',
+                    },
                 ],
-                "alphabetize": {
-                    "order": "asc",
-                    "caseInsensitive": true
-                }
-            }
-        ]
-    }
+                alphabetize: {
+                    order: 'asc',
+                    caseInsensitive: true,
+                },
+            },
+        ],
+    },
 };

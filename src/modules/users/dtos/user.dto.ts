@@ -6,7 +6,6 @@ import { AbstractDto } from '../../../common/dto/abstract.dto';
 
 @Exclude()
 export class UserDto extends AbstractDto {
-
     @Expose()
     @IsString()
     @ApiProperty()
@@ -28,5 +27,4 @@ export class UserDto extends AbstractDto {
     @IsNotEmpty()
     @ApiProperty()
     readonly email: string;
-
 }

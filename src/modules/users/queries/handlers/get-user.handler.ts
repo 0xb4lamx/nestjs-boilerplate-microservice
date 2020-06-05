@@ -8,8 +8,10 @@ import { GetUserQuery } from '../impl/get-user.query';
 
 @QueryHandler(GetUserQuery)
 export class GetUserHandler implements IQueryHandler<GetUserQuery> {
-    constructor(private readonly _repository: UserRepository,
-                private readonly _logger: LoggerService) {}
+    constructor(
+        private readonly _repository: UserRepository,
+        private readonly _logger: LoggerService,
+    ) {}
 
     async execute(query: GetUserQuery): Promise<UserDto> {
         this._logger.log('[query] Async GetUserQuery...');

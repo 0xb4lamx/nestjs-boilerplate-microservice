@@ -17,14 +17,16 @@ import { ConfigService } from './shared/services/config.service';
         TerminusModule,
         TypeOrmModule.forRootAsync({
             imports: [SharedModule],
-            useFactory: (configService: ConfigService) => configService.typeOrmConfig,
+            useFactory: (configService: ConfigService) =>
+                configService.typeOrmConfig,
             inject: [ConfigService],
         }),
         EventStoreCqrsModule.forRootAsync(
             {
                 useFactory: async (config: ConfigService) => {
                     return {
-                        connectionSettings: config.eventStoreConfig.connectionSettings,
+                        connectionSettings:
+                            config.eventStoreConfig.connectionSettings,
                         endpoint: config.eventStoreConfig.tcpEndpoint,
                     };
                 },
@@ -33,7 +35,7 @@ import { ConfigService } from './shared/services/config.service';
             eventStoreBusConfig,
         ),
     ],
-  controllers: [AppController],
-  providers: [AppService],
+    controllers: [AppController],
+    providers: [AppService],
 })
 export class AppModule {}

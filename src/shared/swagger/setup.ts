@@ -3,7 +3,10 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { ISwaggerConfigInterface } from '../../interfaces/swagger-config.interface';
 
-export function setupSwagger(app: INestApplication, config: ISwaggerConfigInterface) {
+export function setupSwagger(
+    app: INestApplication,
+    config: ISwaggerConfigInterface,
+) {
     const options = new DocumentBuilder()
         .setTitle(config.title)
         .setDescription(config.description)

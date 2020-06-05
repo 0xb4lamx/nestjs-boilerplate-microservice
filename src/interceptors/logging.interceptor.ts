@@ -17,14 +17,16 @@ export class LoggingInterceptor implements NestInterceptor {
         if (req) {
             const method = req.method;
             const url = req.url;
-            return next.handle().pipe(
-                tap(() =>
-                    Logger.log(
-                        `${method} ${url} ${Date.now() - now}ms`,
-                        context.getClass().name,
+            return next
+                .handle()
+                .pipe(
+                    tap(() =>
+                        Logger.log(
+                            `${method} ${url} ${Date.now() - now}ms`,
+                            context.getClass().name,
+                        ),
                     ),
-                ),
-            );
+                );
         } else {
             // GRAPHQL interception
             const ctx: any = GqlExecutionContext.create(context);

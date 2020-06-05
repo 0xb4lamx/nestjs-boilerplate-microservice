@@ -9,9 +9,12 @@ export class UtilsService {
      */
     public static toDto<T, E>(model: new (entity: E) => T, user: E): T;
     public static toDto<T, E>(model: new (entity: E) => T, user: E[]): T[];
-    public static toDto<T, E>(model: new (entity: E) => T, user: E | E[]): T | T[] {
+    public static toDto<T, E>(
+        model: new (entity: E) => T,
+        user: E | E[],
+    ): T | T[] {
         if (_.isArray(user)) {
-            return user.map((u) => new model(u));
+            return user.map(u => new model(u));
         }
         return new model(user);
     }

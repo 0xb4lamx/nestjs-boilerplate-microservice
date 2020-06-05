@@ -9,7 +9,6 @@ import { SnakeNamingStrategy } from '../typeorm/strategies/snake-naming.strategy
 
 export class ConfigService {
     constructor() {
-
         dotenv.config({
             path: `.env`,
         });
@@ -46,19 +45,26 @@ export class ConfigService {
     }
 
     get typeOrmConfig(): TypeOrmModuleOptions {
-
         let entities = [__dirname + '/../../modules/**/*.entity{.ts,.js}'];
         let migrations = [__dirname + '/../../migrations/*{.ts,.js}'];
 
         if ((module as any).hot) {
-            const entityContext = (require as any).context('./../../modules', true, /\.entity\.ts$/);
-            entities = entityContext.keys().map((id) => {
+            const entityContext = (require as any).context(
+                './../../modules',
+                true,
+                /\.entity\.ts$/,
+            );
+            entities = entityContext.keys().map(id => {
                 const entityModule = entityContext(id);
                 const [entity] = Object.values(entityModule);
                 return entity;
             });
-            const migrationContext = (require as any).context('./../../migrations', false, /\.ts$/);
-            migrations = migrationContext.keys().map((id) => {
+            const migrationContext = (require as any).context(
+                './../../migrations',
+                false,
+                /\.ts$/,
+            );
+            migrations = migrationContext.keys().map(id => {
                 const migrationModule = migrationContext(id);
                 const [migration] = Object.values(migrationModule);
                 return migration;
@@ -85,8 +91,11 @@ export class ConfigService {
             protocol: this.get('EVENT_STORE_PROTOCOL') || 'http',
             connectionSettings: {
                 defaultUserCredentials: {
-                    username: this.get('EVENT_STORE_CREDENTIALS_USERNAME') || 'admin',
-                    password: this.get('EVENT_STORE_CREDENTIALS_PASSWORD') || 'changeit',
+                    username:
+                        this.get('EVENT_STORE_CREDENTIALS_USERNAME') || 'admin',
+                    password:
+                        this.get('EVENT_STORE_CREDENTIALS_PASSWORD') ||
+                        'changeit',
                 },
                 verboseLogging: true,
                 failOnNoServerResponse: true,
@@ -145,9 +154,13 @@ export class ConfigService {
                 new winston.transports.Console({
                     level: 'debug',
                     handleExceptions: true,
-                    format: winston.format.combine(winston.format.colorize(),
-                        winston.format.timestamp({ format: 'DD-MM-YYYY HH:mm:ss' }),
-                        winston.format.simple()),
+                    format: winston.format.combine(
+                        winston.format.colorize(),
+                        winston.format.timestamp({
+                            format: 'DD-MM-YYYY HH:mm:ss',
+                        }),
+                        winston.format.simple(),
+                    ),
                 }),
             ],
             exitOnError: false,

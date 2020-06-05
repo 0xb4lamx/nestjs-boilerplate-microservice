@@ -6,10 +6,11 @@ import { User } from '../entities/user.entity';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
-
     async createUser(userRegisterDto: UserRegisterDto) {
         const id = uuidv4();
-        const user = await this.save(super.create({...{id}, ...userRegisterDto}));
+        const user = await this.save(
+            super.create({ ...{ id }, ...userRegisterDto }),
+        );
         user.create();
         return user;
     }
@@ -21,13 +22,15 @@ export class UserRepository extends Repository<User> {
         return updatedUser;
     }
 
-    async deleteUser(userDto) {// Todo
+    async deleteUser(userDto) {
+        // Todo
         const user = new User();
         user.delete();
         return user;
     }
 
-    async welcomeUser(userDto) {// Todo
+    async welcomeUser(userDto) {
+        // Todo
         const user = await super.findOne({ id: userDto.id });
         user.welcome();
         return user;

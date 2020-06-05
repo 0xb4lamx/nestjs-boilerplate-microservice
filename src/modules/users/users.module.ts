@@ -17,7 +17,7 @@ import { UsersService } from './services/users.service';
         GraphQLFederationModule.forRootAsync({
             useFactory: () => ({
                 typePaths: ['./**/*.graphql'],
-              }),
+            }),
         }),
     ],
     controllers: [UsersController],
