@@ -60,7 +60,7 @@
         "graphql": "^14.5.8",
         "graphql-tools": "^4.0.5",
         "helmet": "^3.20.0",
-        "lodash": "^4.17.15",
+        "lodash": "^4.17.19",
         "mime-types": "~2.1.24",
         "morgan": "^1.10",
         "mysql": "^2.18.1",
