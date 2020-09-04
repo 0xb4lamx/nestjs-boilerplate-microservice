@@ -12,8 +12,8 @@
 
 Make sure you have the following installed:
 
-- [Node](https://nodejs.org/en/) (at least the latest LTS)
-- [Yarn](https://yarnpkg.com/lang/en/docs/install/) (at least 1.0)
+- [Node](https://nodejs.org/en/) (at least the latest LTS, currently v12)
+- [Npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) (at least v6.0)
 
 Then update the following files to suit your application:
 
@@ -21,10 +21,10 @@ Then update the following files to suit your application:
 
 ```bash
 # Install dependencies from package.json
-yarn install
+npm install
 ```
 
-> Note: don't delete yarn.lock before installation
+> Note: don't delete package-lock.json before installation
 
 ### Database
 
@@ -32,7 +32,7 @@ yarn install
 
 ### Configuration
 
-Before start please install Mysql and fill correct configurations in `.development.env` file
+Before start please install Mysql and fill correct configurations in `.env.example` file
 
 ```env
 MYSQL_HOST=localhost
@@ -44,13 +44,13 @@ MYSQL_DATABASE=b2h_microservice_db
 
 ```bash
 # To create new migration file
-yarn typeorm:migration:create migration_name
+npm migration:create migration_name
 
 # Truncate full database (note: it's not deleting the database)
-yarn typeorm:schema:drop
+npm schema:drop
 
 # Generate migration from update of entities
-yarn migration:generate migration_name
+npm migration:generate migration_name
 ```
 
 ### Dev server
@@ -59,10 +59,10 @@ yarn migration:generate migration_name
 
 ```bash
 # Launch the dev server
-yarn start:dev
+npm start:dev
 
 # Launch the dev server and enable remote debugger
-yarn debug:dev
+npm debug:dev
 ```
 
 ## Generators
@@ -73,7 +73,7 @@ This project includes generators to speed up common development tasks. Commands 
 
 ```bash
 # Install nest-cli globally
-yarn global add @nestjs/cli
+npm global add @nestjs/cli
 
 # Generate a new service
 nest generate service users
