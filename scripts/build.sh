@@ -13,7 +13,7 @@ fi
 
 # ---- cleaning up ----
 echo "[Removing Exited Containers]"
-docker ps -a | grep Exit | cut -d ' ' -f 1 || xargs docker rm
+docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs docker rm
 
 # ---- deploying network ----
 echo "[Deploying Containers Network]"
