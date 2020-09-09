@@ -54,6 +54,12 @@ As branching model we follow **GitFlow**  illustrated as follow.
 * **Feature Branch**
 	* **Syntax**
 		 ``feature-[JiraTicketNumber] Example: feature-BGP-1368``
+* **Develop Branch**
+	* **Syntax**
+	``develop``
+* **PreRelease Branch**
+	* **Syntax**
+	``pre/rc``
 * **Release Branch**
 	* **Syntax**
-	``pr/rc``
+	``master``
