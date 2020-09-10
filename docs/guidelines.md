@@ -57,9 +57,9 @@ As branching model we follow **GitFlow**  illustrated as follow.
 * **Develop Branch**
 	* **Syntax**
 	``develop``
-* **PreRelease Branch**
+* **Release Branch**
 	* **Syntax**
 	``pre/rc``
-* **Release Branch**
+* **Master Branch**
 	* **Syntax**
 	``master``
