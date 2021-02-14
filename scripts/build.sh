@@ -76,7 +76,7 @@ then
 echo "[Check]: Eventstore ${EVENTSTORE_CONTAINER_NAME} container not found"
 echo "[Deploying Eventstore Container]"
 docker run -d --name ${EVENTSTORE_CONTAINER_NAME} --mount type=bind,source=$HOME/eventstore-data-dir,target=/var/lib/eventstore --network ${NETWORK_NAME} -p ${EVENTSTORE_HTTP_PORT}:${EVENTSTORE_HTTP_PORT} -p ${EVENTSTORE_TCP_PORT}:${EVENTSTORE_TCP_PORT} \
-eventstore/eventstore &> /dev/null
+eventstore/eventstore:release-5.0.9 &> /dev/null
 echo "[Deployed Evenstore Container]"
 else
 echo "[Check]: Evenstore ${EVENTSTORE_CONTAINER_NAME} container found"
