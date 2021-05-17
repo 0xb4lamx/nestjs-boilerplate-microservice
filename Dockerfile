@@ -24,7 +24,7 @@ COPY ./package*.json ./
 RUN npm install --production -d
 
 # --- Release with distroless ----
-FROM gcr.io/distroless/nodejs:10 AS release
+FROM gcr.io/distroless/nodejs:12 AS release
 WORKDIR /app
 COPY --from=polishing app/node_modules node_modules/
 COPY --from=build app/dist dist/
