@@ -1,0 +1,60 @@
+version: "3.1"
+services:
+    app:
+        environment: 
+            MYSQL_HOST: "${MYSQL_HOST}"
+            MYSQL_USERNAME: "${MYSQL_USERNAME}"
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_DATABASE: "${MYSQL_DATABASE}"
+            MYSQL_PORT: "${MYSQL_PORT}"
+            EVENT_STORE_HOSTNAME: "${EVENT_STORE_HOSTNAME}"
+            EVENT_STORE_CREDENTIALS_USERNAME: "${EVENT_STORE_CREDENTIALS_USERNAME}"
+            EVENT_STORE_CREDENTIALS_PASSWORD: "${EVENT_STORE_CREDENTIALS_PASSWORD}"
+            EVENT_STORE_PROTOCOL: "${EVENT_STORE_PROTOCOL}"
+            EVENT_STORE_TCP_PORT: "${EVENT_STORE_TCP_PORT}"
+            EVENT_STORE_HTTP_PORT: "${EVENT_STORE_HTTP_PORT}"
+            EVENT_STORE_POOLOPTIONS_MIN: "${EVENT_STORE_POOLOPTIONS_MIN}"
+            EVENT_STORE_POOLOPTIONS_MAX: "${EVENT_STORE_POOLOPTIONS_MAX}"
+            PORT: "${PORT}"
+            HOST: "${HOST}"
+        container_name: awesome_nestjs_boilerplate
+        image: node:lts-alpine3.9
+        working_dir: /app
+        command: 
+          - sh
+          - -c
+          - apk add --no-cache git && /bin/su node -c 'npm -d install && npm run start:dev'
+        ports:
+          -  "${PORT}:${PORT}"
+        volumes: 
+          - type: "bind"
+            source: "./"
+            target: /app/
+    mysql:
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_DATABASE: "${MYSQL_DATABASE}"
+        image: mysql:5.7 
+        command:
+            - --default-authentication-plugin=mysql_native_password
+            - --character-set-server=utf8mb4
+            - --collation-server=utf8mb4_unicode_ci
+        container_name: "${MYSQL_HOST}"
+        volumes: 
+            - ./data/mysql-data-dir:/var/lib/mysql
+    eventstore:
+        environment: 
+            - EVENT_STORE_TCP_PORT="${EVENT_STORE_TCP_PORT}"
+            - EVENT_STORE_HTTP_PORT="${EVENT_STORE_HTTP_PORT}"
+        image: eventstore/eventstore:release-5.0.9
+        container_name: "${EVENT_STORE_HOSTNAME}"
+        ports: 
+            - "${EVENT_STORE_HTTP_PORT}:${EVENT_STORE_HTTP_PORT}"
+            - "${EVENT_STORE_TCP_PORT}:${EVENT_STORE_TCP_PORT}"
+        volumes: 
+            - ./data/eventstore-data-dir:/var/lib/eventstore
+    adminer:
+        image: adminer
+        container_name: 'adminer'
+        ports:
+            - 8080:8080
