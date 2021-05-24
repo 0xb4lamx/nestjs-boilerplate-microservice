@@ -393,3 +393,5 @@ Temporary Items
 dist
 logs
 data/
+.config/
+.npm/

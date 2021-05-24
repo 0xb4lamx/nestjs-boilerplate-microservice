@@ -1,0 +1,149 @@
+#!/bin/sh
+
+#script goals
+
+# ---- HELP ----
+help(){
+    echo "boiler-ctl command line tool to manage projetcs"
+    echo 
+    echo "Syntax: boiler-ctl [init|stop|logs|install|commit|clean] [ARGS]"
+    echo "options"
+    echo "init      Initiate project, creates data folders and containerized environment."
+    echo "stop      Stop project containerized environment."
+    echo "logs      Print and tail container logs, no args for all containers logs, or specify docker-compose service name(s)."
+    echo "install   Install node package(s) seperated by a blank space."
+    echo "commit    Print interactive commit menu implemnts conventional commits."
+    echo "clean     Stops containers if up and deletes data and node_modules folder."
+}
+
+# ---- VARS ----
+DEFAULT_NODE_CONTAINER_TAG="node:lts-alpine3.9"
+DEFAULT_NODE_CONTAINER_PACKAGE_MANAGER="npm"
+
+# ---- CHECK REQ ----
+for cmd in git docker docker-compose;
+    do
+        command -v "${cmd}" >/dev/null || {
+            echo "[$(date +%D-%H:%M)][REQ]: Error! ${cmd} is required, but not found."
+            exit 1
+        };
+  done
+[ -d ".git" ] || {
+    echo "[$(date)][REQ]: Error! boiler-ctl only wokrs on git repositories."
+    exit 1
+}
+
+# ---- CHECK NUMBER OF ARGS ----
+[ "$#" != "0" ] || {
+    echo "[$(date +%D-%H:%M)][REQ]: Error! no args has been suplied, maybe use --help for list of options."
+    exit 1
+}
+
+# ---- HANDLE ARGS ----
+case $1 in
+    init)
+            shift
+            [ "$#" != "0" ] && {
+                echo "[$(date +%D-%H:%M)][INIT][CONFIG]: too much arguments."
+                exit 1
+            }
+            [ -f ./docker-compose.yml ] && echo "[$(date +%D-%H:%M)][INIT][CONFIG]: docker-compose.yml file found" || {
+                echo "[$(date +%D-%H:%M)][INIT][CONFIG]: Error! docker-compose.yml file is required, but not found."
+                exit 1
+            }
+            docker-compose up
+    ;;
+    stop)
+            shift
+            [ "$#" != "0" ] && {
+                echo "[$(date +%D-%H:%M)][STOP][CONFIG]: too much arguments."
+                exit 1
+            }
+            [ -f ./docker-compose.yml ] && echo "[$(date +%D-%H:%M)][INIT][CONFIG]: docker-compose.yml file found" || {
+                echo "[$(date +%D-%H:%M)][STOP][CONFIG]: Error! docker-compose.yml file is required, but not found."
+                exit 1
+            }
+            docker-compose down
+    ;;
+    logs)
+            shift
+            docker-compose logs -t -f "$@"
+    ;;
+    install)
+            shift
+            [ "$#" != "0" ] || {
+                echo "[$(date +%D-%H:%M)][INSTALL][CONFIG]: Error! no package name detected, please provide packages name seperated by space."
+                exit 1
+            }
+            [ -f ./package.json ] && echo "[$(date +%D-%H:%M)][INSTALL][CONFIG]: package.json file found" || {
+                echo "[$(date +%D-%H:%M)][INSTALL][CONFIG]: Error! package.json file is required, but not found."
+                exit 1
+            }
+            [ -n "$NODE_CONTAINER_TAG" ] && {
+                echo "[$(date +%D-%H:%M)][INSTALL][NODE_VERSION]: NODE_CONTAINER_TAG found. Using it instead of default"
+                $DEFAULT_NODE_CONTAINER_TAG="$NODE_CONTAINER_TAG"
+            } || {
+                echo "[$(date +%D-%H:%M)][INSTALL][NODE_VERSION]: Using default NODE_CONTAINER_TAG $DEFAULT_NODE_CONTAINER_TAG"
+            }
+            [ -n "$NODE_CONTAINER_PACKAGE_MANAGER" ] && {
+                echo "[$(date +%D-%H:%M)][INSTALL][NODE_PACKAGE_MANAGER]: NODE_CONTAINER_PACKAGE_MANAGER found. Using it instead of default"
+                $DEFAULT_NODE_CONTAINER_PACKAGE_MANAGER="$NODE_CONTAINER_PACKAGE_MANAGER"
+            } || {
+                echo "[$(date +%D-%H:%M)][INSTALL][NODE_VERSION]: Using default NODE_CONTAINER_PACKAGE_MANAGER $DEFAULT_NODE_CONTAINER_PACKAGE_MANAGER"
+            }
+            docker run --rm --name packge-install-job -w="/app" --mount type=bind,source="$(pwd)"/.,target="/app" \
+            "$DEFAULT_NODE_CONTAINER_TAG" "$DEFAULT_NODE_CONTAINER_PACKAGE_MANAGER" install "$@"
+    ;;
+    commit)
+            shift
+            [ "$#" != "0" ] && {
+                echo "[$(date +%D-%H:%M)][COMMIT][CONFIG]: too much arguments."
+                exit 1
+            }
+            docker run --rm --name commit-citizen-job -w="/app" --mount type=bind,source="$(pwd)"/.,target="/app" \
+            -e HOME='.' -v ~/.gitconfig:/etc/gitconfig -a stdin -a stdout -a stderr -it  timbru31/node-alpine-git npx git-cz --disable-emoji
+    ;;
+    clean)
+            shift
+            [ "$#" != "0" ] && {
+                echo "[$(date +%D-%H:%M)][CLEAN][CONFIG]: too much arguments."
+                exit 1
+            }
+            [ -f ./docker-compose.yml ] && echo "[$(date +%D-%H:%M)][CLEAN][CONFIG]: docker-compose.yml file found" || {
+                echo "[$(date +%D-%H:%M)][CLEAN][CONFIG]: Error! docker-compose.yml file is required, but not found."
+                exit 1
+            }
+            echo "[$(date +%D-%H:%M)][CLEAN][ENV]: stoping containers if up."
+            docker-compose down
+            [ -d "./data" ] && {
+                echo "[$(date +%D-%H:%M)][CLEAN][DATA]: data directory found, deleteing it."
+                docker run --rm --name clean-data-dir-job -w="/app" --mount type=bind,source="$(pwd)"/.,target="/app" alpine:3 rm -rfv ./data
+            }
+            [ -d "./node_modules" ] && {
+                echo "[$(date +%D-%H:%M)][CLEAN][DATA]: node_modules directory found, deleteing it."
+                docker run --rm --name clean-node_modules-job -w="/app" --mount type=bind,source="$(pwd)"/.,target="/app" alpine:3 rm -rfv node_modules
+            }
+            [ -d "./.npm" ] && {
+                echo "[$(date +%D-%H:%M)][CLEAN][DATA]: .npm directory found, deleteing it."
+                docker run --rm --name clean-npm_folder-job -w="/app" --mount type=bind,source="$(pwd)"/.,target="/app" alpine:3 rm -rfv ./.npm
+            }
+            [ -d "./.config" ] && {
+                echo "[$(date +%D-%H:%M)][CLEAN][DATA]: .config directory found, deleteing it."
+                docker run --rm --name clean-npm_folder-job -w="/app" --mount type=bind,source="$(pwd)"/.,target="/app" alpine:3 rm -rfv ./.config
+            }
+            [ -d "./dist" ] && {
+                echo "[$(date +%D-%H:%M)][CLEAN][DATA]: .config directory found, deleteing it."
+                docker run --rm --name clean-npm_folder-job -w="/app" --mount type=bind,source="$(pwd)"/.,target="/app" alpine:3 rm -rfv ./dist
+            }
+    ;;
+    help)
+            shift
+            [ "$#" != "0" ] && {
+                echo "[$(date +%D-%H:%M)][CLEAN][HELP]: too much arguments, help takes no args."
+                exit 1
+            }
+            help
+    ;;
+    *)
+            echo "[$(date +%D-%H:%M)]: Error! unrecongnized arg, maybe use help for instructions."
+esac
