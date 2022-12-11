@@ -45,7 +45,7 @@
         "@nestjs/cqrs": "^7.0.1",
         "@nestjs/graphql": "^7.7.0",
         "@nestjs/microservices": "^7.4.4",
-        "@nestjs/platform-express": "^7.4.4",
+        "@nestjs/platform-express": "^9.2.1",
         "@nestjs/swagger": "^4.6.0",
         "@nestjs/terminus": "^7.0.1",
         "@nestjs/typeorm": "^7.1.4",
