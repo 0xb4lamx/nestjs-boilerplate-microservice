@@ -68,7 +68,7 @@
         "pretty-error": "^2.1.1",
         "rimraf": "^3.0",
         "rxjs": "^6.5.5",
-        "swagger-ui-express": "^4.1.4",
+        "swagger-ui-express": "^4.6.0",
         "typeorm": "^0.2.25",
         "uuid": "^7.0.0",
         "winston": "^3.2.1",
