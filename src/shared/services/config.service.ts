@@ -129,7 +129,7 @@ export class ConfigService {
             transports: [
                 new DailyRotateFile({
                     level: 'debug',
-                    filename: `./logs/${this.nodeEnv}/debug-%DATE%.log`,
+                    filename: `${process.env.HOME}/${this.nodeEnv}/debug-%DATE%.log`,
                     datePattern: 'YYYY-MM-DD',
                     zippedArchive: true,
                     maxSize: '20m',
@@ -141,7 +141,7 @@ export class ConfigService {
                 }),
                 new DailyRotateFile({
                     level: 'error',
-                    filename: `./logs/${this.nodeEnv}/error-%DATE%.log`,
+                    filename: `${process.env.HOME}/${this.nodeEnv}/error-%DATE%.log`,
                     datePattern: 'YYYY-MM-DD',
                     zippedArchive: false,
                     maxSize: '20m',

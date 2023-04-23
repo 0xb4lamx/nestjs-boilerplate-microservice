@@ -1,6 +1,6 @@
 # Guidelines
 
-This document will introduce concepts and guidelines that constitute software development and delivery culture at box2home.
+This document will introduce concepts and guidelines that constitute software development and delivery culture.
 
 # Software Versioning and Release 
 
