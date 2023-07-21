@@ -4,7 +4,7 @@ export NETWORK_NAME="alpine-net"
 export DB_CONTANER_NAME="sql-db"
 export DB_ROOT_PASSWORD="root"
 export DB_ROOT_USERNAME="root"
-export DB_ROOT_DATABASE="b2h-db"
+export DB_ROOT_DATABASE="demo-db"
 export DB_MYSQL_PORT="3306"
 # ---- MS1 PARAMS ----
 export CONTAINER_NAME="devtest"

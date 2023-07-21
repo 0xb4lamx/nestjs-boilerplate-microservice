@@ -1,4 +1,4 @@
-FROM node:carbon
+FROM node:16-alpine3.17
 WORKDIR /app
 COPY ./*.json ./
 COPY ./ormconfig.js ./

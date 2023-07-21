@@ -19,5 +19,5 @@ export async function setupGrpc(
         },
     });
 
-    await app.startAllMicroservicesAsync();
+    await app.startAllMicroservices();
 }

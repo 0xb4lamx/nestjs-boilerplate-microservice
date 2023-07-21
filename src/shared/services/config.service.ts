@@ -37,7 +37,7 @@ export class ConfigService {
     get swaggerConfig(): ISwaggerConfigInterface {
         return {
             path: this.get('SWAGGER_PATH') || '/api/docs',
-            title: this.get('SWAGGER_TITLE') || 'B2H Microservice API',
+            title: this.get('SWAGGER_TITLE') || 'Demo Microservice API',
             description: this.get('SWAGGER_DESCRIPTION'),
             version: this.get('SWAGGER_VERSION') || '0.0.1',
             scheme: this.get('SWAGGER_SCHEME') === 'https' ? 'https' : 'http',
@@ -54,7 +54,7 @@ export class ConfigService {
                 true,
                 /\.entity\.ts$/,
             );
-            entities = entityContext.keys().map(id => {
+            entities = entityContext.keys().map((id) => {
                 const entityModule = entityContext(id);
                 const [entity] = Object.values(entityModule);
                 return entity;
@@ -64,7 +64,7 @@ export class ConfigService {
                 false,
                 /\.ts$/,
             );
-            migrations = migrationContext.keys().map(id => {
+            migrations = migrationContext.keys().map((id) => {
                 const migrationModule = migrationContext(id);
                 const [migration] = Object.values(migrationModule);
                 return migration;

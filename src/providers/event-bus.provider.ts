@@ -9,10 +9,10 @@ import { UserUpdatedEvent } from '../modules/users/events/impl/user-updated.even
 import { UserWelcomedEvent } from '../modules/users/events/impl/user-welcomed.event';
 
 const UserEventInstantiators = {
-    UserCreatedEvent: data => new UserCreatedEvent(data),
-    UserDeletedEvent: data => new UserDeletedEvent(data),
-    UserUpdatedEvent: data => new UserUpdatedEvent(data),
-    UserWelcomedEvent: data => new UserWelcomedEvent(data),
+    UserCreatedEvent,
+    UserDeletedEvent,
+    UserUpdatedEvent,
+    UserWelcomedEvent,
 };
 
 export const eventStoreBusConfig: EventStoreBusConfig = {
@@ -38,7 +38,7 @@ export const eventStoreBusConfig: EventStoreBusConfig = {
         //     stream: '$ce-users',
         // },
     ],
-    eventInstantiators: {
+    events: {
         ...UserEventInstantiators,
     },
 };

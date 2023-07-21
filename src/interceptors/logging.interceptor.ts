@@ -38,9 +38,9 @@ export class LoggingInterceptor implements NestInterceptor {
                 .pipe(
                     tap(() =>
                         Logger.log(
-                            `${info.parentType} "${
-                                info.fieldName
-                            }" ${Date.now() - now}ms`,
+                            `${info.parentType} "${info.fieldName}" ${
+                                Date.now() - now
+                            }ms`,
                             resolverName,
                         ),
                     ),

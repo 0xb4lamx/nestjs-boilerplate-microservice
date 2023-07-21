@@ -1,5 +1,9 @@
+import {
+    ApolloFederationDriverConfig,
+    ApolloFederationDriver,
+} from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
-import { GraphQLFederationModule } from '@nestjs/graphql';
+import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CommandHandlers } from './commands/handlers';
@@ -14,7 +18,8 @@ import { UsersService } from './services/users.service';
 @Module({
     imports: [
         TypeOrmModule.forFeature([UserRepository]),
-        GraphQLFederationModule.forRootAsync({
+        GraphQLModule.forRootAsync<ApolloFederationDriverConfig>({
+            driver: ApolloFederationDriver,
             useFactory: () => ({
                 typePaths: ['./**/*.graphql'],
             }),

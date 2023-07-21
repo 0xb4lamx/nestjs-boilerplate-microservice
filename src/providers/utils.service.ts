@@ -14,7 +14,7 @@ export class UtilsService {
         user: E | E[],
     ): T | T[] {
         if (_.isArray(user)) {
-            return user.map(u => new model(u));
+            return user.map((u) => new model(u));
         }
         return new model(user);
     }

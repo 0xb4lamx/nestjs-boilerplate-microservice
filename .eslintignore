@@ -2,3 +2,5 @@ data/
 docs/
 node_modules/
 scripts/
+boilerplate.polyfill.ts
+**spec.ts

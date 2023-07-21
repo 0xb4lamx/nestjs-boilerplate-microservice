@@ -1,10 +1,10 @@
-import { Repository, EntityRepository } from 'typeorm';
-import * as uuidv4 from 'uuid/v4';
+import { Repository, Entity } from 'typeorm';
+import { v4 as uuidv4 } from 'uuid';
 
 import { UserRegisterDto } from '../dtos/user-register.dto';
 import { User } from '../entities/user.entity';
 
-@EntityRepository(User)
+@Entity()
 export class UserRepository extends Repository<User> {
     async createUser(userRegisterDto: UserRegisterDto) {
         const id = uuidv4();
@@ -16,22 +16,23 @@ export class UserRepository extends Repository<User> {
     }
 
     async updateUser(userDto) {
-        const updateResult = await super.update({ id: userDto.id }, userDto);
-        const updatedUser = await super.findOne({ id: userDto.id });
+        await super.update({ id: userDto.id }, userDto);
+        const updatedUser = await super.findOne({ where: { id: userDto.id } });
         updatedUser.update();
         return updatedUser;
     }
 
     async deleteUser(userDto) {
         // Todo
-        const user = new User();
+        const user = await super.findOne({ where: { id: userDto.id } });
+        await super.delete({ id: userDto.id });
         user.delete();
         return user;
     }
 
     async welcomeUser(userDto) {
         // Todo
-        const user = await super.findOne({ id: userDto.id });
+        const user = await super.findOne({ where: { id: userDto.id } });
         user.welcome();
         return user;
     }
