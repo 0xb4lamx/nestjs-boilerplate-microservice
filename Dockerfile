@@ -1,8 +1,8 @@
 # ---- Base Node ----
-FROM node:lts-alpine3.9 AS base
+FROM node:16-alpine3.17 AS base
 RUN apk add --no-cache git
 WORKDIR /app
-RUN mkdir src templates
+RUN mkdir src
 RUN chown -R node:node /app
 USER node
 
@@ -14,7 +14,6 @@ RUN npm install -d
 # ---- Build ----
 FROM dependencies AS build
 WORKDIR /app
-COPY ./templates /app/templates
 COPY ./src /app/src
 COPY ./ts*.json ./
 COPY ormconfig.js ./
@@ -26,13 +25,12 @@ COPY ./package*.json ./
 RUN npm install --production -d
 
 # --- Release with Alpine ----
-FROM node:lts-alpine3.9 AS release
+FROM node:16-alpine3.17 AS release
 WORKDIR /app
-RUN mkdir dist templates node_modules
+RUN mkdir dist node_modules
 RUN chown -R node:node /app
 USER node
 COPY --from=polishing app/node_modules node_modules/
 COPY --from=build app/dist dist/
-COPY --from=build app/templates templates/
 COPY --from=build app/ormconfig.js ./
-CMD ["node","dist/src/main.js"]
+CMD ["node","dist/main.js"]

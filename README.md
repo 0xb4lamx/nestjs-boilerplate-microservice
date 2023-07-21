@@ -1,7 +1,7 @@
 
 ## Description
 
-Microservice boilerplate based on [NestJS v7](https://github.com/nestjs/nest), built with TypeScript.
+Microservice boilerplate based on [NestJS v10](https://github.com/nestjs/nest), built with TypeScript.
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 
@@ -54,7 +54,7 @@ This section will cover the steps to follow for a containerized version of this 
   
     |Server|User|Password|Database
     |--|--|--|--|
-    |sql-db|root|root|b2h-db|
+    |sql-db|root|root|demo-db|
 - **Microservice Docker Container**
     ```bash
         sudo docker exec -it devtest bash

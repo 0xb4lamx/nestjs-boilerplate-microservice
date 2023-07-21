@@ -1,8 +1,10 @@
 import { NamingStrategyInterface, DefaultNamingStrategy } from 'typeorm';
 import { snakeCase } from 'typeorm/util/StringUtils';
 
-export class SnakeNamingStrategy extends DefaultNamingStrategy
-    implements NamingStrategyInterface {
+export class SnakeNamingStrategy
+    extends DefaultNamingStrategy
+    implements NamingStrategyInterface
+{
     tableName(className: string, customName: string): string {
         return customName ? customName : snakeCase(className);
     }

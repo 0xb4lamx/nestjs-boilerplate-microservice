@@ -4,16 +4,16 @@ import {
     NestExpressApplication,
     ExpressAdapter,
 } from '@nestjs/platform-express';
-import * as rateLimit from 'express-rate-limit';
+import rateLimit from 'express-rate-limit';
 import * as helmet from 'helmet'; // security feature
 import * as morgan from 'morgan'; // HTTP request logger
 
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
-import { SharedModule } from './shared.module';
 import { ConfigService } from './shared/services/config.service';
 import { LoggerService } from './shared/services/logger.service';
 import { setupSwagger } from './shared/swagger/setup';
+import { SharedModule } from './shared.module';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(
@@ -27,7 +27,7 @@ async function bootstrap() {
     app.use(
         morgan('combined', {
             stream: {
-                write: message => {
+                write: (message) => {
                     loggerService.log(message);
                 },
             },

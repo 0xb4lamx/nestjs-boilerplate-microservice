@@ -1,4 +1,5 @@
-import { Module, Global, HttpModule } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
+import { Module, Global } from '@nestjs/common';
 
 import { AwsS3Service } from './shared/services/aws-s3.service';
 import { ConfigService } from './shared/services/config.service';

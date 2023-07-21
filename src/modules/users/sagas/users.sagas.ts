@@ -13,7 +13,7 @@ export class UsersSagas {
         return events$.pipe(
             ofType(UserCreatedEvent),
             delay(1000),
-            map(event => {
+            map((event) => {
                 Logger.log('Inside [UsersSagas] Saga', 'UsersSagas');
                 const userId = event.userDto.id;
                 return new WelcomeUserCommand(userId);

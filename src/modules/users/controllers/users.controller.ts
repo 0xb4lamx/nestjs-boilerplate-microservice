@@ -21,7 +21,6 @@ export class UsersController {
     constructor(private readonly _usersService: UsersService) {}
 
     /* Create User */
-    /*--------------------------------------------*/
     @ApiOperation({ summary: 'Create User' })
     @ApiResponse({ status: HttpStatus.CREATED, description: 'User Created.' })
     @Post()
@@ -30,7 +29,6 @@ export class UsersController {
     }
 
     /* Update User */
-    /*--------------------------------------------*/
     @ApiOperation({ summary: 'Update User' })
     @ApiResponse({ status: HttpStatus.OK, description: 'Update User.' })
     @Put(':id')
@@ -42,7 +40,6 @@ export class UsersController {
     }
 
     /* Delete User */
-    /*--------------------------------------------*/
     @ApiOperation({ summary: 'Delete User' })
     @ApiResponse({ status: HttpStatus.OK, description: 'Delete User.' })
     @Delete(':id')
@@ -50,7 +47,7 @@ export class UsersController {
         return this._usersService.deleteUser(id);
     }
 
-    /*--------------------------------------------*/
+    /* Get users */
     @ApiOperation({ summary: 'List Users' })
     @ApiResponse({ status: HttpStatus.OK, description: 'List Users.' })
     @Get()
@@ -58,7 +55,7 @@ export class UsersController {
         return this._usersService.findUsers();
     }
 
-    /*--------------------------------------------*/
+    /* Get user*/
     @ApiOperation({ summary: 'Get User' })
     @ApiResponse({ status: HttpStatus.OK, description: 'Get User.' })
     @Get(':id')
