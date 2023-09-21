@@ -60,7 +60,7 @@
         "class-validator": "^0.14.0",
         "dotenv": "^8.1.0",
         "express-rate-limit": "^6.0.0",
-        "graphql": "^16.7.1",
+        "graphql": "^16.8.1",
         "helmet": "^3.20.0",
         "lodash": "^4.17.21",
         "mime-types": "~2.1.24",
