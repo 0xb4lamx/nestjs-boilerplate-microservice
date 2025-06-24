@@ -55,7 +55,7 @@
         "@nestjs/terminus": "^10.0.0",
         "@nestjs/typeorm": "^10.0.0",
         "aws-sdk": "^2.1419.0",
-        "axios": "^1.6.0",
+        "axios": "^1.10.0",
         "class-transformer": "^0.3.1",
         "class-validator": "^0.14.0",
         "dotenv": "^8.1.0",
