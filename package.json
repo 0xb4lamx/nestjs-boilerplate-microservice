@@ -41,7 +41,7 @@
     },
     "dependencies": {
         "@apollo/federation": "^0.38.1",
-        "@apollo/gateway": "^2.9.0",
+        "@apollo/gateway": "^2.11.0",
         "@apollo/subgraph": "^2.5.1",
         "@nestjs/apollo": "^12.0.7",
         "@nestjs/axios": "^3.0.0",
