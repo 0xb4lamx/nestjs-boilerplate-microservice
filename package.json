@@ -43,7 +43,7 @@
         "@apollo/federation": "^0.38.1",
         "@apollo/gateway": "^2.12.1",
         "@apollo/subgraph": "^2.5.1",
-        "@nestjs/apollo": "^12.0.7",
+        "@nestjs/apollo": "^13.2.4",
         "@nestjs/axios": "^3.0.0",
         "@nestjs/common": "^10.0.0",
         "@nestjs/core": "^10.4.20",
