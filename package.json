@@ -49,7 +49,7 @@
         "@nestjs/core": "^10.4.20",
         "@nestjs/cqrs": "^10.0.0",
         "@nestjs/graphql": "^12.0.8",
-        "@nestjs/microservices": "^10.0.0",
+        "@nestjs/microservices": "^11.1.19",
         "@nestjs/platform-express": "^10.4.22",
         "@nestjs/swagger": "^7.4.2",
         "@nestjs/terminus": "^10.0.0",
